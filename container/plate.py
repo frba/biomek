@@ -39,6 +39,14 @@ class Plate:
     def get_name(self):
         return self.name
 
+    def get_empty_well_coord(self):
+        for i in range(0, self.num_rows):
+            for j in range(0, self.num_cols):
+                if len(self.wells[i][j].samples) == 0:
+                    return i, j
+        return None
+
+
 
 class Well:
 

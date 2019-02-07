@@ -6,6 +6,12 @@ DATABASE = "../input/database.csv"
 
 SEP = ','
 
+class colours:
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    BLUE = '\033[94m'
+    RED = '\033[93m'
+
 
 def create(filename, mode):
     """Create a new file"""
@@ -51,14 +57,24 @@ def set_header(fileout):
 
 
 def write_result(fileout, result):
-    part, source_plate_name, source_well_name, water_plate_name, water_plate_well, fmol, vol_sample, vol_water, error = result
-    print(result)
-    if SEP == ',':
-        fileout.write(str(source_plate_name)+','+str(source_well_name)+','+str(source_plate_name)+','+str(source_well_name)+','+str(vol_sample)+str(error)+'\n')
-        fileout.write(str(water_plate_name)+','+str(water_plate_well)+','+str(source_plate_name)+','+str(source_well_name)+','+str(vol_water)+'\n')
-    else:
-        fileout.write('Source Plate Name\tSource Well\tDestination Plate Name\tDestination Well\tVolume\tError\n')
 
+    for i in range(0, len(result)):
+        part, source_plate_name, source_well_name, water_plate_name, water_plate_well, dest_plate, \
+        dest_well, fmol, vol_sample, vol_water, error = result[i]
+
+        if len(error) > 0:
+            print(colours.RED + str(error))
+        else:
+            fileout.write(str(source_plate_name) + '\t' + str(source_well_name) + '\t' + str(dest_plate) + '\t' + str(
+                dest_well) + '\t' + str(vol_sample) + str(error) + '\n')
+
+            fileout.write(str(water_plate_name) + '\t' + str(water_plate_well) + '\t' + str(dest_plate) + '\t' + str(
+                dest_well) + '\t' + str(vol_water) + '\n')
+
+        # print(str(source_plate_name) + '\t' + str(source_well_name) + '\t' + str(dest_plate) + '\t' + str(
+        #     dest_well) + '\t' + str(vol_sample) + str(error))
+        # print(str(water_plate_name) + '\t' + str(water_plate_well) + '\t' + str(dest_plate) + '\t' + str(
+        #     dest_well) + '\t' + str(vol_water))
 
 
 
