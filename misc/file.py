@@ -2,9 +2,13 @@
 
 import os
 import sys
+import pyfiglet
+from termcolor import cprint
+
 DATABASE = "../input/database.csv"
 
 SEP = ','
+
 
 class colours:
     ENDC = '\033[0m'
