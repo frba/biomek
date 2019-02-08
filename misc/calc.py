@@ -1,6 +1,6 @@
-"""Miscellaneous useful functions.
-
+""" Miscellaneous useful functions.
     Methods for converting to and from plate coordinates.
+    Some functions were inherited From Plateo> https://github.com/Edinburgh-Genome-Foundry/Plateo.git)
     Methods to calc normalization sample file
 """
 
@@ -39,9 +39,11 @@ def dilution_factor(fmol, concentration):
 def sample_volume(dilut_factor, well_min_vol):
     return round(well_min_vol/dilut_factor, 2)
 
+
 def total_volume(sample_volume, dilut_factor):
     total_volume = sample_volume * dilut_factor
     return total_volume
+
 
 def water_volume(total_volume, sample_volume):
     """Return the volume of water to complete 50ul"""

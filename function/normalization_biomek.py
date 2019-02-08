@@ -1,6 +1,11 @@
+"""
+# File to calculate the normalization of samples and create a csv file to be used on BIOMEK
+"""
+
 from container import plate
 from misc import file, calc, selection
 import sys
+
 
 def verify_sample_volume(volume_needed, volume_available):
     if volume_needed > volume_available:
@@ -96,7 +101,6 @@ def populate_plate_sample(plate_in, filein):
             """create a new plate"""
         row, col = calc.wellname_to_coordinates(plate_well)
         plate_in.wells[row][col].samples.append(plate.Sample(samp_name, samp_len, samp_conc, int(volume)))
-
     return plate_in
 
 
@@ -110,7 +114,6 @@ def populate_plate_water(plate_water):
 
 
 def populate_plate_destination(plate_out, norm_result):
-
     for k in range(0, len(norm_result)):
         sample_name, plate_in_name, plate_in_wells, plate_water_name, \
         plate_water_wells, dest_plate, dest_well, fmol, sample_vol_verified, water_vol_needed, message = \

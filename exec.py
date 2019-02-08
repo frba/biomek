@@ -1,10 +1,12 @@
+"""
 # Concordia Genome Foundry
-# Script to create CSV files to be used in  a normalization cvs file to be used on BioMek
+# Script to create CSV files to be used on BioMek
 # author: Flavia Araujo
+"""
+
 
 # imported packages
-from container import plate
-from misc import file, calc, selection
+from misc import selection
 import sys
 
 
@@ -18,8 +20,9 @@ class Experiment:
 def main():
 
     if len(sys.argv) == 1:
-        choose = selection.autoplay()
-        selection.function(choose)
+        # choose = selection.autoplay()
+        # selection.function(choose)
+        selection.function('0')
 
     else:
         print("Insert the expected number of arguments")

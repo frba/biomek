@@ -1,4 +1,7 @@
+"""
 # Library to create a class for different plates
+"""
+
 
 from misc import calc
 
@@ -46,6 +49,17 @@ class Plate:
                     return i, j
         return None
 
+    def iterL(self, n):
+        for i in range(self.num_rows):
+            for j in range(self.num_cols):
+                for k in range(0, n):
+                    yield self.wells[i][j]
+
+    def iterC(self, n):
+        for j in range(self.num_cols):
+            for i in range(self.num_rows):
+                for k in range(0, n):
+                    yield self.wells[i][j]
 
 
 class Well:

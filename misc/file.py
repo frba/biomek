@@ -1,4 +1,7 @@
-'''Library to deal with input and output files'''
+"""
+#Library to deal with input and output files
+"""
+
 
 import os
 import sys
