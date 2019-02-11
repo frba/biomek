@@ -28,7 +28,6 @@ def verify_biomek_constraints(num_source_plates, num_pattern, pattern):
     ver_pattern = verify_entry(int, num_pattern)
     total_destination = ver_num_source * ver_pattern
     total_plates = ver_num_source + total_destination
-
     if total_plates > MAX_PLATES:
         print('The total plates (%d) exceeds the Biomek limit of %d' % (total_plates, MAX_PLATES))
 
@@ -38,9 +37,9 @@ def verify_biomek_constraints(num_source_plates, num_pattern, pattern):
         create_output_file(ver_num_source, total_destination, pattern)
 
 
-def generate_random_names(name, num_var):
+def generate_random_names(name, init, end):
     names = []
-    for i in range(1, num_var+1):
+    for i in range(init, end):
         names.append(str(name) + str(i))
     return names
 
@@ -52,13 +51,10 @@ def create_plate(num_wells, name):
 
 
 def write_on_file_by_col(source_plates, destination_plates, num_pattern, outfile):
-
     for plateS in source_plates:
         source_wells = plateS.iterR(num_pattern)
         for plateD in destination_plates:
             dest_wells = plateD.iterC(1)
-            # yield plateD
-            print(plateD.name)
             while source_wells and dest_wells:
                 try:
                     wellD = next(dest_wells)
@@ -69,71 +65,59 @@ def write_on_file_by_col(source_plates, destination_plates, num_pattern, outfile
                 except StopIteration:
                     break
 
-    print(file.colours.BOLD + 'Output File: ' + outfile.name + file.colours.BOLD)
 
-
-def write_on_file_by_row(source_plates, destination_plates, num_pattern, outfile):
-
-    for plateS in source_plates:
-        source_wells = plateS.iterR(num_pattern)
-        for plateD in destination_plates:
-            dest_wells = plateD.iterR(1)
-            # yield plateD
-            print(plateD.name)
-            while source_wells and dest_wells:
-                try:
-                    wellD = next(dest_wells)
-                    wellS = next(source_wells)
-                    print(plateS.name + ',' + wellS.name + ',' + plateD.name + ',' + wellD.name + ',' + str(VOLUME))
-                    outfile.write(str(plateS.name) + ',' + str(wellS.name) + ',' + str(plateD.name) + ',' + str(
-                        wellD.name) + ',' + str(VOLUME) + '\n')
-                except StopIteration:
-                    break
-
-    print(file.colours.BOLD + 'Output File: ' + outfile.name + file.colours.BOLD)
+def write_on_file_by_row(source_plate, destination_plates, num_pattern, outfile):
+    source_wells = source_plate.iterR(num_pattern)
+    for plateD in destination_plates:
+        dest_wells = plateD.iterR(1)
+        while dest_wells:
+            try:
+                wellD = next(dest_wells)
+                wellS = next(source_wells)
+                print(source_plate.name + ',' + wellS.name + ',' + plateD.name + ',' + wellD.name + ',' + str(VOLUME))
+                outfile.write(str(source_plate.name) + ',' + str(wellS.name) + ',' + str(plateD.name) + ',' + str(
+                    wellD.name) + ',' + str(VOLUME) + '\n')
+            except StopIteration:
+                break
 
 
 def create_output_file(total_source, total_destination, pattern):
     source_plates = []
     destination_plates = []
     num_pattern = int(total_destination/total_source)
-
+    start = 1
     '''Add the header'''
     if pattern == BY_ROW:
         outfile = file.create('output/template_'+str(total_destination)+'x'+str(total_source)+'_byrow.csv', 'w')
         file.set_header(outfile)
         ''' Create the source plates'''
-        source_names = generate_random_names('PlateS', total_source)
-        for i in range(0, len(source_names)):
-            source_plates.append(create_plate(96, source_names[i]))
-
-        ''' Create the destination plates'''
-        destination_names = generate_random_names('PlateD', total_destination)
-        for j in range(0, len(destination_names)):
-            destination_plates.append(create_plate(96, destination_names[j]))
-
-        '''Call Function to write the CSV by rows'''
-        write_on_file_by_row(source_plates, destination_plates, num_pattern, outfile)
+        for i in range(0, total_source):
+            plateS_num = i+1
+            source_name = 'PlateS' + str(plateS_num)
+            source_plate = create_plate(96, source_name)
+            destination_names = generate_random_names('PlateD', num_pattern*i+1, num_pattern*i+num_pattern+1)
+            destination_plates = []
+            for j in range(0, len(destination_names)):
+                destination_plates.append(create_plate(96, destination_names[j]))
+            '''Call Function to write the CSV by rows'''
+            write_on_file_by_row(source_plate, destination_plates, num_pattern, outfile)
+        print(file.colours.BOLD + 'Output File: ' + outfile.name + file.colours.BOLD)
 
     elif pattern == BY_COL:
         outfile = file.create('output/template_' + str(total_source) + 'x' + str(total_destination) + '_bycol.csv', 'w')
         file.set_header(outfile)
         ''' Create the source plates'''
-        source_names = generate_random_names('PlateS', total_source)
-        for i in range(0, len(source_names)):
-            source_plates.append(create_plate(96, source_names[i]))
-
-        ''' Create the destination plates'''
-        destination_names = generate_random_names('PlateD', total_destination)
-        for j in range(0, len(destination_names)):
-            destination_plates.append(create_plate(96, destination_names[j]))
-
-        '''Call a function to write the CSV by columns'''
-        write_on_file_by_col(source_plates, destination_plates, num_pattern, outfile)
-
+        for i in range(0, total_source):
+            plateS_num = i + 1
+            source_name = 'PlateS' + str(plateS_num)
+            source_plate = create_plate(96, source_name)
+            destination_names = generate_random_names('PlateD', num_pattern * i + 1, num_pattern * i + num_pattern + 1)
+            destination_plates = []
+            for j in range(0, len(destination_names)):
+                destination_plates.append(create_plate(96, destination_names[j]))
+            '''Call Function to write the CSV by rows'''
+            write_on_file_by_row(source_plate, destination_plates, num_pattern, outfile)
         print(file.colours.BOLD + 'Output File: ' + outfile.name + file.colours.BOLD)
-
     else:
         print('Invalid option')
         sys.exit()
-
