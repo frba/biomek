@@ -49,7 +49,7 @@ class Plate:
                     return i, j
         return None
 
-    def iterL(self, n):
+    def iterR(self, n):
         for i in range(self.num_rows):
             for j in range(self.num_cols):
                 for k in range(0, n):
