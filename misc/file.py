@@ -5,10 +5,8 @@
 
 import os
 import sys
-import pyfiglet
-from termcolor import cprint
 
-DATABASE = "../input/database.csv"
+# DATABASE = "../input/database.csv"
 
 # SEP = '\t'
 SEP = ','

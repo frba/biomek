@@ -87,7 +87,7 @@ def write_on_file_by_col(source_plate, destination_plates, num_pattern, outfile)
             try:
                 wellD = next(dest_wells)
                 wellS = next(source_wells)
-                #print(plateS.name + ',' + wellS.name + ',' + plateD.name + ',' + wellD.name + ',' + str(VOLUME))
+                # print(source_plate.name + ',' + wellS.name + ',' + plateD.name + ',' + wellD.name + ',' + str(VOLUME))
                 outfile.write(str(source_plate.name) + ',' + str(wellS.name) + ',' + str(plateD.name) + ',' + str(
                     wellD.name) + ',' + str(VOLUME) + '\n')
             except StopIteration:
@@ -115,7 +115,7 @@ def write_on_file_by_row(source_plate, destination_plates, num_pattern, outfile)
             try:
                 wellD = next(dest_wells)
                 wellS = next(source_wells)
-                #print(source_plate.name + ',' + wellS.name + ',' + plateD.name + ',' + wellD.name + ',' + str(VOLUME))
+                # print(source_plate.name + ',' + wellS.name + ',' + plateD.name + ',' + wellD.name + ',' + str(VOLUME))
                 outfile.write(str(source_plate.name) + ',' + str(wellS.name) + ',' + str(plateD.name) + ',' + str(
                     wellD.name) + ',' + str(VOLUME) + '\n')
             except StopIteration:
@@ -160,7 +160,7 @@ def create_output_file(total_source, total_destination, pattern):
             for j in range(0, len(destination_names)):
                 destination_plates.append(create_plate(96, destination_names[j]))
             '''Call Function to write the CSV by rows'''
-            write_on_file_by_row(source_plate, destination_plates, num_pattern, outfile)
+            write_on_file_by_col(source_plate, destination_plates, num_pattern, outfile)
         print(file.colours.BOLD + 'Output File: ' + outfile.name + file.colours.BOLD)
     else:
         print('Invalid option')

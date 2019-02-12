@@ -26,6 +26,11 @@ def verify_entry(type, num):
         return num
 
 
+def combinatorial_data():
+    print('Under development')
+    sys.exit()
+
+
 def data_normalization():
     filepath = input('Inform the filepath (input/database.csv): ')
     in_num_well = input('Inform the number of wells in source plate: ')
@@ -42,23 +47,34 @@ def template():
 
 
 def function(choose):
+    """
+    Function to select the function in the system
+    :param choose: int number
+    """
     if choose == '0':
         '''Create CSV templates'''
         template()
     elif choose == '1':
         '''Create Normalization CSV File'''
         data_normalization()
+    elif choose == '2':
+        '''Create Combinatorial CSV File'''
+        combinatorial_data()
     else:
         print(file.colours.RED+'Invalid option'+file.colours.ENDC)
         sys.exit()
 
 
 def autoplay():
-
+    """
+    Autoplay script that helps to choose the function desired
+    :return: number int
+    """
     cprint(pyfiglet.figlet_format("Biomek Script"), "blue")
     print('Please choose one option:\n')
-    choose = input(file.colours.RED+'0'+file.colours.ENDC+' -> Create CSV files templates for Biomek\n'
-                   +file.colours.RED+'1'+file.colours.ENDC+' -> Create a Normalization CSV file to be used on BioMek\n'
+    choose = input(file.colours.RED+'0'+file.colours.ENDC+' -> Create a CSV file template\n'
+                   +file.colours.RED+'1'+file.colours.ENDC+' -> Create a Normalization CSV file\n'
+                   +file.colours.RED+'2'+file.colours.ENDC+' -> Create a CSV file with combinatorial\n'
                    +'Choose > ')
 
     return choose

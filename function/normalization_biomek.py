@@ -5,7 +5,7 @@
 from container import plate
 from misc import file, calc, selection
 import sys
-
+import os
 
 def verify_sample_volume(volume_needed, volume_available):
     if volume_needed > volume_available:
@@ -130,7 +130,7 @@ def populate_plate_destination(plate_out, norm_result):
 
 def create_Biomek_dilution_output(path, in_well, out_well):
     filein = file.verify(path)
-    outfile = file.create('output/dilution_biomek.csv', 'w')
+    outfile = file.create('output/dilution_' + str(os.path.basename(filein.name)), 'w')
     file.set_header(outfile)
     if file.get_extension(path) == '.csv':
         # TODO: verify the separator
