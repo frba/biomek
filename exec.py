@@ -20,9 +20,9 @@ class Experiment:
 def main():
 
     if len(sys.argv) == 1:
-        # choose = selection.autoplay()
-        # selection.function(choose)
-        selection.function('0')
+        choose = selection.autoplay()
+        selection.function(choose)
+        # selection.function('0')
 
     else:
         print("Insert the expected number of arguments")

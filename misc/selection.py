@@ -10,6 +10,22 @@ from function import normalization_biomek as nb
 from function import template_biomek as tb
 
 
+def verify_entry(type, num):
+    try:
+        '''Verify if the numbers type is correct'''
+        num = type(num)
+    except ValueError:
+        message = str(num) + ' is not a number'
+        print(message)
+        sys.exit()
+    if num <= 0:
+        message = 'the value needs to be greater than ' + str(num)
+        print(message)
+        sys.exit()
+    else:
+        return num
+
+
 def data_normalization():
     filepath = input('Inform the filepath (input/database.csv): ')
     in_num_well = input('Inform the number of wells in source plate: ')

@@ -1,193 +1,63 @@
 Source Plate Name,Source Well,Destination Plate Name,Destination Well,Volume
-Source	A1	Destination	A1	4
-Source water	A1	Destination	A1	44.11
-Source	A2	Destination	A2	5.14
-Source water	A1	Destination	A2	29.86
-Source	A3	Destination	A3	5.1
-Source water	A1	Destination	A3	29.89
-Source	A4	Destination	A4	4.58
-Source water	A1	Destination	A4	30.46
-Source	A5	Destination	A5	5.93
-Source water	A1	Destination	A5	29.06
-Source	A6	Destination	A6	13.83
-Source water	A1	Destination	A6	21.16
-Source	A6	Destination	A7	4.29
-Source water	A1	Destination	A7	30.72
-Source	A7	Destination	A8	5.13
-Source water	A1	Destination	A8	29.86
-Source	A8	Destination	A9	24.65
-Source water	A1	Destination	A9	10.35
-Source	A8	Destination	A10	14.29
-Source water	A1	Destination	A10	20.72
-Source	A9	Destination	A11	10.09
-Source water	A1	Destination	A11	24.92
-Source	A10	Destination	A12	9.75
-Source water	A1	Destination	A12	25.25
-Source	A11	Destination	B1	5.79
-Source water	A1	Destination	B1	29.24
-Source	A12	Destination	B2	5.78
-Source water	A1	Destination	B2	29.25
-Source	B1	Destination	B3	5.59
-Source water	A1	Destination	B3	29.4
-Source	B2	Destination	B4	5.75
-Source water	A1	Destination	B4	29.27
-Source	B3	Destination	B5	6.36
-Source water	A1	Destination	B5	28.62
-Source	B4	Destination	B6	5.88
-Source water	A1	Destination	B6	29.11
-Source	B5	Destination	B7	7.63
-Source water	A1	Destination	B7	27.39
-Source	B6	Destination	B8	9.11
-Source water	A1	Destination	B8	25.87
-Source	B7	Destination	B9	8.27
-Source water	A1	Destination	B9	26.71
-Source	B8	Destination	B10	8.08
-Source water	A1	Destination	B10	26.91
-Source	B9	Destination	B11	6.7
-Source water	A1	Destination	B11	28.27
-Source	B10	Destination	B12	5.68
-Source water	A1	Destination	B12	29.31
-Source	B11	Destination	C1	6.81
-Source water	A1	Destination	C1	28.19
-Source	B12	Destination	C2	8.56
-Source water	A1	Destination	C2	26.45
-Source	C1	Destination	C3	5.04
-Source water	A1	Destination	C3	29.99
-Source	C2	Destination	C4	5.92
-Source water	A1	Destination	C4	29.07
-Source	C3	Destination	C5	7.16
-Source water	A1	Destination	C5	27.85
-Source	C4	Destination	C6	6.23
-Source water	A1	Destination	C6	28.78
-Source	C5	Destination	C7	6.84
-Source water	A1	Destination	C7	28.18
-Source	C6	Destination	C8	9.49
-Source water	A1	Destination	C8	25.53
-Source	C7	Destination	C9	9.26
-Source water	A1	Destination	C9	25.74
-Source	C8	Destination	C10	9.8
-Source water	A1	Destination	C10	25.19
-Source	C9	Destination	C11	6.15
-Source water	A1	Destination	C11	28.84
-Source	C10	Destination	C12	9.19
-Source water	A1	Destination	C12	25.82
-Source	C11	Destination	D1	9.51
-Source water	A1	Destination	D1	25.49
-Source	C12	Destination	D2	8.27
-Source water	A1	Destination	D2	26.71
-Source	D1	Destination	D3	6.39
-Source water	A1	Destination	D3	28.63
-Source	D2	Destination	D4	7.07
-Source water	A1	Destination	D4	27.93
-Source	D3	Destination	D5	8.29
-Source water	A1	Destination	D5	26.69
-Source	D4	Destination	D6	10.57
-Source water	A1	Destination	D6	24.42
-Source	D5	Destination	D7	12.54
-Source water	A1	Destination	D7	22.45
-Source	D6	Destination	D8	9.14
-Source water	A1	Destination	D8	25.87
-Source	D7	Destination	D9	7.63
-Source water	A1	Destination	D9	27.39
-Source	D8	Destination	D10	23.97
-Source water	A1	Destination	D10	11.03
-Source	D9	Destination	D11	10.51
-Source water	A1	Destination	D11	24.49
-Source	D10	Destination	D12	7.69
-Source water	A1	Destination	D12	27.3
-Source	D11	Destination	E1	13.16
-Source water	A1	Destination	E1	21.85
-Source	D12	Destination	E2	5.84
-Source water	A1	Destination	E2	29.14
-Source	E1	Destination	E3	9.41
-Source water	A1	Destination	E3	25.6
-Source	E2	Destination	E4	4.99
-Source water	A1	Destination	E4	29.99
-Source	E3	Destination	E5	6.21
-Source water	A1	Destination	E5	28.81
-Source	E4	Destination	E6	8.56
-Source water	A1	Destination	E6	26.45
-Source	E5	Destination	E7	7.25
-Source water	A1	Destination	E7	27.77
-Source	E6	Destination	E8	8.58
-Source water	A1	Destination	E8	26.43
-Source	E7	Destination	E9	5.66
-Source water	A1	Destination	E9	29.32
-Source	E8	Destination	E10	4.95
-Source water	A1	Destination	E10	30.05
-Source	E9	Destination	E11	5.6
-Source water	A1	Destination	E11	29.4
-Source	E10	Destination	E12	8.54
-Source water	A1	Destination	E12	26.47
-Source	E11	Destination	F1	6.84
-Source water	A1	Destination	F1	28.18
-Source	E12	Destination	F2	6.7
-Source water	A1	Destination	F2	28.27
-Source	F1	Destination	F3	4.3
-Source water	A1	Destination	F3	30.7
-Source	F2	Destination	F4	4.67
-Source water	A1	Destination	F4	30.31
-Source	F3	Destination	F5	5.77
-Source water	A1	Destination	F5	29.25
-Source	F4	Destination	F6	4.96
-Source water	A1	Destination	F6	30.01
-Source	F5	Destination	F7	8.45
-Source water	A1	Destination	F7	26.53
-Source	F6	Destination	F8	9.11
-Source water	A1	Destination	F8	25.87
-Source	F7	Destination	F9	7.76
-Source water	A1	Destination	F9	27.24
-Source	F8	Destination	F10	4.7
-Source water	A1	Destination	F10	30.32
-Source	F9	Destination	F11	4.08
-Source water	A1	Destination	F11	30.89
-Source	F10	Destination	F12	6.58
-Source water	A1	Destination	F12	28.43
-Source	F11	Destination	G1	4.17
-Source water	A1	Destination	G1	30.86
-Source	F12	Destination	G2	4.86
-Source water	A1	Destination	G2	30.13
-Source	G1	Destination	G3	5.01
-Source water	A1	Destination	G3	29.96
-Source	G2	Destination	G4	4.32
-Source water	A1	Destination	G4	30.67
-Source	G3	Destination	G5	4.79
-Source water	A1	Destination	G5	30.22
-Source	G4	Destination	G6	4.2
-Source water	A1	Destination	G6	30.79
-Source	G5	Destination	G7	6.23
-Source water	A1	Destination	G7	28.78
-Source	G6	Destination	G8	5.02
-Source water	A1	Destination	G8	29.97
-Source	G7	Destination	G9	5.98
-Source water	A1	Destination	G9	29.0
-Source	G8	Destination	G10	4.36
-Source water	A1	Destination	G10	30.61
-Source	G9	Destination	G11	4
-Source water	A1	Destination	G11	33.04
-Source	G10	Destination	G12	7.76
-Source water	A1	Destination	G12	27.24
-Source	G11	Destination	H1	10.87
-Source water	A1	Destination	H1	24.13
-Source	G12	Destination	H2	7.53
-Source water	A1	Destination	H2	27.48
-Source	H1	Destination	H3	9.89
-Source water	A1	Destination	H3	25.12
-Source	H2	Destination	H4	9.78
-Source water	A1	Destination	H4	25.23
-Source	H3	Destination	H5	9.11
-Source water	A1	Destination	H5	25.87
-Source	H4	Destination	H6	7.13
-Source water	A1	Destination	H6	27.88
-Source	H5	Destination	H7	4
-Source water	A1	Destination	H7	33.39
-Source	H6	Destination	H8	6.97
-Source water	A1	Destination	H8	28.02
-Source	H7	Destination	H9	4.25
-Source water	A1	Destination	H9	30.73
-Source	H8	Destination	H10	6.59
-Source water	A1	Destination	H10	28.4
-Source	H9	Destination	H11	5.2
-Source water	A1	Destination	H11	29.8
-Source	H10	Destination	H12	4.42
-Source water	A1	Destination	H12	30.59
+Source	A1	Destination	A1	9.02
+Source water	A1	Destination	A1	25.98
+Source	A2	Destination	A2	5.51
+Source water	A1	Destination	A2	29.48
+Source	A3	Destination	A3	5.15
+Source water	A1	Destination	A3	29.87
+Source	A4	Destination	A4	5.16
+Source water	A1	Destination	A4	29.82
+Source	A5	Destination	A5	5.39
+Source water	A1	Destination	A5	29.59
+Source	A6	Destination	A6	7.43
+Source water	A1	Destination	A6	27.57
+Source	A7	Destination	A7	10.94
+Source water	A1	Destination	A7	24.07
+Source	A8	Destination	A8	5.39
+Source water	A1	Destination	A8	29.59
+Source	A9	Destination	A9	7.61
+Source water	A1	Destination	A9	27.4
+Source	A10	Destination	A10	6.1
+Source water	A1	Destination	A10	28.91
+Source	A11	Destination	A11	9.7
+Source water	A1	Destination	A11	25.32
+Source	A12	Destination	A12	7.14
+Source water	A1	Destination	A12	27.85
+Source	B1	Destination	B1	5.24
+Source water	A1	Destination	B1	29.76
+Source	B2	Destination	B2	10.39
+Source water	A1	Destination	B2	24.62
+Source	B3	Destination	B3	15.42
+Source water	A1	Destination	B3	19.58
+Source	B4	Destination	B4	11.25
+Source water	A1	Destination	B4	23.74
+Source	B5	Destination	B5	9.56
+Source water	A1	Destination	B5	25.43
+Source	B6	Destination	B6	11.95
+Source water	A1	Destination	B6	23.06
+Source	B7	Destination	B7	9.36
+Source water	A1	Destination	B7	25.65
+Source	B8	Destination	B8	4.47
+Source water	A1	Destination	B8	30.53
+Source	B9	Destination	B9	8.52
+Source water	A1	Destination	B9	26.5
+Source	B10	Destination	B10	6.84
+Source water	A1	Destination	B10	28.18
+Source	B11	Destination	B11	6.25
+Source water	A1	Destination	B11	28.75
+Source	B12	Destination	B12	6.18
+Source water	A1	Destination	B12	28.8
+Source	C1	Destination	C1	5.18
+Source water	A1	Destination	C1	29.84
+Source	C2	Destination	C2	4
+Source water	A1	Destination	C2	32.11
+Source	C3	Destination	C3	4
+Source water	A1	Destination	C3	35.37
+Source	C4	Destination	C4	4.94
+Source water	A1	Destination	C4	30.04
+Source	C5	Destination	C5	5.4
+Source water	A1	Destination	C5	29.59
+Source	C6	Destination	C6	5.26
+Source water	A1	Destination	C6	29.72
+Source	C7	Destination	C7	4.24
+Source water	A1	Destination	C7	30.78

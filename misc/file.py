@@ -10,6 +10,7 @@ from termcolor import cprint
 
 DATABASE = "../input/database.csv"
 
+# SEP = '\t'
 SEP = ','
 
 
