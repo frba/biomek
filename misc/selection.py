@@ -35,7 +35,10 @@ def data_normalization():
     filepath = input('Inform the filepath (input/database.csv): ')
     in_num_well = input('Inform the number of wells in source plate: ')
     out_num_well = input('Inform the number of wells in destination plate: ')
-    nb.create_Biomek_dilution_output(filepath, in_num_well, out_num_well)
+    # filepath = 'input/Parts_for_CCM_projects.csv'
+    # in_num_well = '96'
+    # out_num_well = '96'
+    nb.create_biomek_dilution_output(filepath, in_num_well, out_num_well)
 
 
 def template():

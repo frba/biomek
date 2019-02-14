@@ -22,7 +22,7 @@ def main():
     if len(sys.argv) == 1:
         choose = selection.autoplay()
         selection.function(choose)
-        # selection.function('1')
+        # selection.function('0')
 
     else:
         print("Insert the expected number of arguments")
