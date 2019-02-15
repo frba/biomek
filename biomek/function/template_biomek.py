@@ -14,8 +14,8 @@ import sys
 
 MAX_PLATES = 12
 VOLUME = 4
-BY_ROW = '0'
-BY_COL = '1'
+BY_ROW = 0
+BY_COL = 1
 
 
 def verify_entry(type, num):

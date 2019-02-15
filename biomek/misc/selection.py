@@ -20,7 +20,7 @@ def data_normalization():
     # filepath = 'input/Parts_for_CCM_projects.csv'
     # in_num_well = '96'
     # out_num_well = '96'
-    nb.create_biomek_dilution_output(filepath, in_num_well, out_num_well)
+    nb.create_biomek_dilution_output(filepath, int(in_num_well), int(out_num_well))
 
 
 def template():
@@ -28,7 +28,7 @@ def template():
     num_pattern = input('Inform the pattern [1 to 11]: ')
     pattern = input('Pattern by row -> ' + file.colours.RED + '0 ' + file.colours.ENDC
                     + 'Pattern by column -> ' + file.colours.RED + '1' + file.colours.ENDC + ': ')
-    tb.verify_biomek_constraints(num_source_plates, num_pattern, pattern)
+    tb.verify_biomek_constraints(int(num_source_plates), int(num_pattern), int(pattern))
 
 
 def function(choose):
