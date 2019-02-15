@@ -6,7 +6,7 @@
 
 
 # imported packages
-from misc import selection
+from biomek.misc import selection
 import sys
 
 
