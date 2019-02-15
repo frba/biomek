@@ -36,13 +36,13 @@ def function(choose):
     Function to select the function in the system
     :param choose: int number
     """
-    if choose == '0':
+    if choose == 0:
         '''Create CSV templates'''
         template()
-    elif choose == '1':
+    elif choose == 1:
         '''Create Normalization CSV File'''
         data_normalization()
-    elif choose == '2':
+    elif choose == 2:
         '''Create Combinatorial CSV File'''
         combinatorial_data()
     else:
@@ -62,4 +62,4 @@ def autoplay():
                    + file.colours.RED + '2' + file.colours.ENDC + ' -> Create a CSV file with combinatorial\n'
                    +'Choose > ')
 
-    return choose
+    return int(choose)
