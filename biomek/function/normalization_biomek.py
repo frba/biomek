@@ -4,7 +4,7 @@
 
 from ..container import plate
 from ..misc import file, calc
-from biomek.function import biomek
+from function import biomek
 import os
 
 
