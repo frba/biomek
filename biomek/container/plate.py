@@ -27,6 +27,7 @@ class Plate:
       A matrix of wells according the number of cols and rows
       the function coordiantes_to_wellname Convert (0,0)->A1,
     """
+    counter = 0
 
     def __init__(self, rows, cols, name):
         self.name = name
@@ -35,6 +36,8 @@ class Plate:
         self.num_wells = rows * cols
         self.wells = [[Well(calc.coordinates_to_wellname(coords=[j, i]), i, j)
                        for i in range(0, self.num_cols)] for j in range(0, self.num_rows)]
+        self.id = Plate.counter
+        Plate.counter += 1
 
     def set_name(self, name):
         self.name = name

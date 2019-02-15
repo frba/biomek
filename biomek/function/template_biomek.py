@@ -91,9 +91,9 @@ def create_output_file(total_source, total_destination, pattern):
     num_pattern = int(total_destination/total_source)
     '''Add the header'''
     if pattern == BY_ROW:
-        outfile = file.create('biomek/output/template_' + str(total_destination) + 'x' + str(total_source) + '_byrow.csv', 'w')
+        outfile = file.create('biomek/output/source_' + str(total_source) + '_' + str(num_pattern) + 'spot_byrow.csv', 'w')
         outcsv = file.createCSV(outfile)
-        file.set_header(outcsv)
+        file.set_template_header(outcsv)
         ''' Create the source plates'''
         for i in range(0, total_source):
             plateS_num = i+1
@@ -108,9 +108,9 @@ def create_output_file(total_source, total_destination, pattern):
         print(file.colours.BOLD + 'Output File: ' + outfile.name + file.colours.BOLD)
 
     elif pattern == BY_COL:
-        outfile = file.create('biomek/output/template_' + str(total_source) + 'x' + str(total_destination) + '_bycol.csv', 'w')
+        outfile = file.create('biomek/output/source_' + str(total_source) + '_' + str(num_pattern) + 'spot_bycol.csv', 'w')
         outcsv = file.createCSV(outfile)
-        file.set_header(outcsv)
+        file.set_template_header(outcsv)
         ''' Create the source plates'''
         for i in range(0, total_source):
             plateS_num = i + 1

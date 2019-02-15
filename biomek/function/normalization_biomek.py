@@ -4,7 +4,6 @@
 
 from ..container import plate
 from ..misc import file, calc
-import biomek
 import os
 
 
@@ -21,10 +20,10 @@ def verify_sample_volume(volume_needed, volume_available):
     else:
         # biomek cant deal with liquids below 4ul
         ''' Verifies if the volume needed is bigger then Biomek minimal volume'''
-        if volume_needed < biomek.MIN_VOL:
+        if volume_needed < plate.Sample.MIN_VOL:
             #Set the needed volume to minimal
-            if volume_available >= biomek.MIN_VOL:
-                volume_needed = biomek.MIN_VOL
+            if volume_available >= plate.Sample.MIN_VOL:
+                volume_needed = plate.Sample.MIN_VOL
                 return volume_needed
             else:
                 # print('Not enough sample')
@@ -160,7 +159,7 @@ def create_biomek_dilution_output(path, in_well, out_well):
     :param out_well: number of well of output plate
     """
     filein = file.verify(path)
-    outfile = file.create('output/dilution_' + str(os.path.basename(path)), 'w')
+    outfile = file.create('biomek/output/dilution_' + str(os.path.basename(path)), 'w')
     out_csv = file.createCSV(outfile)
     file.set_header(out_csv)
 
@@ -182,4 +181,4 @@ def create_biomek_dilution_output(path, in_well, out_well):
     plate_out_filled, new_result = populate_plate_destination(plate_out, norm_result)
     """Write the result in a CSV file"""
     file.write_result(out_csv, new_result)
-    print(file.colours.BOLD + 'Output File: ' + outfile.name + file.colours.BOLD)
+    print(file.colours.BOLD + 'Output File: ' + outfile.name + file.colours.ENDC)

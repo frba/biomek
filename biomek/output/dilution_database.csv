@@ -1,4 +1,4 @@
-Source Well,Destination Plate Name,Volume,Destination Well,Source Plate Name
+Source Plate Name,Source Well,Destination Plate Name,Destination Well,Volume
 Source,A1,Destination,A1,4
 Source water,A1,Destination,A1,44.11
 Source,A2,Destination,A2,5.14

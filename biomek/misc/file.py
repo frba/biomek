@@ -16,8 +16,8 @@ SEP = ','
 class colours:
     ENDC = '\033[0m'
     BOLD = '\033[1m'
-    BLUE = '\033[94m'
-    RED = '\033[93m'
+    BLUE = '\033[34m'
+    RED = '\033[31m'
 
 
 def create(filename, mode):
@@ -59,12 +59,17 @@ def verify(path):
 def get_header(filein):
     """Get the first line in file (header)"""
     header = next(filein, None)
-    # print (reader)
     return header
 
 
 def set_header(fileout):
-    fileout.writerow({'Source Plate Name','Source Well','Destination Plate Name','Destination Well','Volume'})
+    header = 'Source Plate Name','Source Well','Destination Plate Name','Destination Well','Volume'
+    fileout.writerow(header)
+
+
+def set_template_header(fileout):
+    header = 'Source ID','Source Plate Name','Source Well','Destination ID','Destination Plate Name','Destination Well','Volume'
+    fileout.writerow(header)
 
 
 def write_result(fileout, result):
@@ -75,14 +80,10 @@ def write_result(fileout, result):
         row_water = water_plate_name,water_plate_well,dest_plate,dest_well,vol_water
 
         if len(error) > 0:
-            print(colours.RED + str(error))
+            print(colours.RED + str(error) + colours.ENDC)
         else:
             fileout.writerow(row_sample)
             fileout.writerow(row_water)
-            # print(str(part) + ' is in: ' + str(source_plate_name) + ':' + str(source_well_name) + '\t' + str(dest_plate) + '\t' + str(
-            #     dest_well) + '\t' + str(vol_sample) + str(error))
-            # print(str(water_plate_name) + '\t' + str(water_plate_well) + '\t' + str(dest_plate) + '\t' + str(
-            #     dest_well) + '\t' + str(vol_water))
 
 
 def write_by_col(source_plate, destination_plates, num_pattern, outfile, VOLUME):
@@ -106,7 +107,6 @@ def write_by_col(source_plate, destination_plates, num_pattern, outfile, VOLUME)
             try:
                 wellD = next(dest_wells)
                 wellS = next(source_wells)
-                # print(source_plate.name + ',' + wellS.name + ',' + plateD.name + ',' + wellD.name + ',' + str(VOLUME))
                 result = source_plate.name, wellS.name, plateD.name, wellD.name, VOLUME
                 outfile.writerow(result)
             except StopIteration:
@@ -121,11 +121,11 @@ def write_by_row(source_plate, destination_plates, num_pattern, outfile, VOLUME)
     :param num_pattern: number of repetitions samples get from source plates
     :param outfile: A CSV file to be used in biomek with the choosed pattern
     with 1 source plate and num_pattern = 2, pattern = byrows, the output file will be like:
-    Source Plate Name,Source Well,Destination Plate Name,Destination Well,Volume
-    PlateS1,A1,PlateD1,A1,4
-    PlateS1,A1,PlateD1,A2,4
-    PlateS1,A2,PlateD1,A3,4
-    PlateS1,A2,PlateD1,A4,4
+    Source Plate ID,Source Plate Name,Source Well,Destination Plate ID,Destination Plate Name,Destination Well,Volume
+    IDPS1,PlateS1,A1,IDPD1,PlateD1,A1,4
+    IDPS1,PlateS1,A1,IDPD1,PlateD1,A2,4
+    IDPS1,PlateS1,A2,IDPD1,PlateD1,A3,4
+    IDPS1,PlateS1,A2,IDPD1,PlateD1,A4,4
     """
     source_wells = source_plate.iterR(num_pattern)
     for plateD in destination_plates:
@@ -134,8 +134,7 @@ def write_by_row(source_plate, destination_plates, num_pattern, outfile, VOLUME)
             try:
                 wellD = next(dest_wells)
                 wellS = next(source_wells)
-                # print(source_plate.name + ',' + wellS.name + ',' + plateD.name + ',' + wellD.name + ',' + str(VOLUME))
-                result = source_plate.name, wellS.name, plateD.name, wellD.name, VOLUME
+                result = source_plate.id, source_plate.name, wellS.name, plateD.id, plateD.name, wellD.name, VOLUME
                 outfile.writerow(result)
             except StopIteration:
                 break

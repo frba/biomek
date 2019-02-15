@@ -23,6 +23,7 @@ def data_normalization():
     nb.create_biomek_dilution_output(filepath, int(in_num_well), int(out_num_well))
 
 
+
 def template():
     num_source_plates = input('Inform the number of source plates: ')
     num_pattern = input('Inform the pattern [1 to 11]: ')
