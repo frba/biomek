@@ -8,7 +8,7 @@ PlateS1,A2,PlateD1,C1,4
 PlateS1,A2,PlateD1,D1,4
 """
 
-from ..misc import calc, file, selection
+from ..misc import calc, file
 from ..container import plate
 import sys
 
@@ -16,6 +16,22 @@ MAX_PLATES = 12
 VOLUME = 4
 BY_ROW = '0'
 BY_COL = '1'
+
+
+def verify_entry(type, num):
+    try:
+        '''Verify if the numbers type is correct'''
+        num = type(num)
+    except ValueError:
+        message = str(num) + ' is not a number'
+        print(message)
+        sys.exit()
+    if num <= 0:
+        message = 'the value needs to be greater than ' + str(num)
+        print(message)
+        sys.exit()
+    else:
+        return num
 
 
 def verify_biomek_constraints(num_source_plates, num_pattern, pattern):
@@ -26,8 +42,8 @@ def verify_biomek_constraints(num_source_plates, num_pattern, pattern):
     :param num_pattern: int number
     :param pattern: 0 or 1
     """
-    ver_num_source = selection.verify_entry(int, num_source_plates)
-    ver_pattern = selection.verify_entry(int, num_pattern)
+    ver_num_source = verify_entry(int, num_source_plates)
+    ver_pattern = verify_entry(int, num_pattern)
     total_destination = ver_num_source * ver_pattern
     total_plates = ver_num_source + total_destination
     if total_plates > MAX_PLATES:

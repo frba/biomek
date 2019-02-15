@@ -4,25 +4,8 @@
 
 import sys
 from biomek.misc import file
-from termcolor import cprint
 from ..function import normalization_biomek as nb
 from ..function import template_biomek as tb
-
-
-def verify_entry(type, num):
-    try:
-        '''Verify if the numbers type is correct'''
-        num = type(num)
-    except ValueError:
-        message = str(num) + ' is not a number'
-        print(message)
-        sys.exit()
-    if num <= 0:
-        message = 'the value needs to be greater than ' + str(num)
-        print(message)
-        sys.exit()
-    else:
-        return num
 
 
 def combinatorial_data():
@@ -72,7 +55,7 @@ def autoplay():
     Autoplay script that helps to choose the function desired
     :return: number int
     """
-    cprint(("Biomek Script"), "blue")
+    print(file.colours.BLUE + "Biomek Script" + file.colours.ENDC)
     print('Please choose one option:\n')
     choose = input(file.colours.RED + '0' + file.colours.ENDC + ' -> Create a CSV file template\n'
                    + file.colours.RED + '1' + file.colours.ENDC + ' -> Create a Normalization CSV file\n'
