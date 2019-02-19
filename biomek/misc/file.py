@@ -26,7 +26,12 @@ def create(filename, mode):
     return newfile
 
 
-def createCSV(newfile):
+def create_reader_CSV(filein):
+    filein = csv.reader(filein)
+    return filein
+
+
+def create_writer_CSV(newfile):
     """Create a new file"""
     newfile = csv.writer(newfile, dialect='excel')
     return newfile
@@ -48,8 +53,7 @@ def verify(path):
     """Verify if the file exist"""
     try:
         f = open(path, 'r')
-        filein = csv.reader(f)
-        return filein
+        return f
 
     except IOError:
         print('File could not be opened.')
@@ -63,27 +67,31 @@ def get_header(filein):
 
 
 def set_header(fileout):
-    header = 'Source Plate Name','Source Well','Destination Plate Name','Destination Well','Volume'
+    header = 'Source ID', 'Source Plate Name','Source Well','Destination ID','Destination Plate Name','Destination Well','Volume'
     fileout.writerow(header)
 
 
-def set_template_header(fileout):
-    header = 'Source ID','Source Plate Name','Source Well','Destination ID','Destination Plate Name','Destination Well','Volume'
+def set_normal_header(fileout):
+    header = 'Source ID','Description','DNA ID',\
+             'DNA Plate BIOMEK','DNA Plate Well', 'Volume DNA', \
+             'Diluent Plate BIOMEK','Diluent Plate Well', 'Volume Diluent',\
+             'Destination Plate','Destination Well','Destination ID','Final Concentration'
     fileout.writerow(header)
 
 
-def write_result(fileout, result):
+def write_normal_result(fileout, result):
 
     for i in range(0, len(result)):
-        part, source_plate_name, source_well_name, water_plate_name, water_plate_well, dest_plate, dest_well, fmol, vol_sample, vol_water, error = result[i]
-        row_sample = source_plate_name,source_well_name,dest_plate,dest_well,vol_sample
-        row_water = water_plate_name,water_plate_well,dest_plate,dest_well,vol_water
+        part, source_id, source_plate_name, source_well_name, water_id, water_plate_name, water_plate_well, \
+        dest_plate, dest_id, dest_well, final_concent, vol_sample, vol_water, error = result[i]
+
+        row = source_id, '...', part, source_plate_name, source_well_name, vol_sample, water_plate_name, \
+              water_plate_well, vol_water, dest_plate, dest_well, dest_id, final_concent
 
         if len(error) > 0:
             print(colours.RED + str(error) + colours.ENDC)
         else:
-            fileout.writerow(row_sample)
-            fileout.writerow(row_water)
+            fileout.writerow(row)
 
 
 def write_by_col(source_plate, destination_plates, num_pattern, outfile, VOLUME):
@@ -107,7 +115,7 @@ def write_by_col(source_plate, destination_plates, num_pattern, outfile, VOLUME)
             try:
                 wellD = next(dest_wells)
                 wellS = next(source_wells)
-                result = source_plate.name, wellS.name, plateD.name, wellD.name, VOLUME
+                result = source_plate.id, source_plate.name, wellS.name, plateD.id, plateD.name, wellD.name, VOLUME
                 outfile.writerow(result)
             except StopIteration:
                 break

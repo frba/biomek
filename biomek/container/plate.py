@@ -113,6 +113,12 @@ class Well:
     def get_sample(self):
         return self.samples
 
+    def is_empty(self):
+        if len(self.samples) == 0:
+            return True
+        else:
+            return False
+
 
 class Sample:
 

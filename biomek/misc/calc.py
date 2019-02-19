@@ -8,6 +8,14 @@ import numpy as np
 import re
 
 
+def final_concentration_fmol(concentration):
+    if concentration < 100:
+        final_concent = 20
+    else:
+        final_concent = 40
+    return final_concent
+
+
 def fmol(length, concentration):
     """Return 20fmol or 40fmol of sample based on its length and concentration"""
     try:
@@ -17,12 +25,10 @@ def fmol(length, concentration):
         print(str(length) + 'is not a number')
     else:
         '''Choose 20fmol or 40fmol based on sample concentration'''
-        if concentration < 100:
-            fmol = round(0.02 * 660 * 1 / 10 ** 6 * length * 1000, 2)
-            return fmol
-        else:
-            fmol = round(0.04 * 660 * 1 / 10 ** 6 * length * 1000, 2)
-            return fmol
+        concent_fmol = final_concentration_fmol(concentration)
+
+        fmol = round((concent_fmol/1000) * 660 * 1 / 10 ** 6 * length * 1000, 2)
+        return fmol, concent_fmol
 
 
 def dilution_factor(fmol, concentration):
@@ -43,6 +49,14 @@ def sample_volume(dilut_factor, well_min_vol):
 def total_volume(sample_volume, dilut_factor):
     total_volume = sample_volume * dilut_factor
     return total_volume
+
+
+def total_destination_plates(plates_in, in_well, out_well):
+    """Return the number of destination plates"""
+    num_dest = len(plates_in) * in_well/out_well
+    if num_dest < 1:
+        num_dest = 1
+    return num_dest
 
 
 def water_volume(total_volume, sample_volume):

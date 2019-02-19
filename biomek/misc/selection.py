@@ -17,16 +17,15 @@ def data_normalization():
     filepath = input('Inform the filepath (biomek/input/database.csv): ')
     in_num_well = input('Inform the number of wells in source plate: ')
     out_num_well = input('Inform the number of wells in destination plate: ')
-    # filepath = 'input/Parts_for_CCM_projects.csv'
+    # filepath = 'biomek/input/database.csv'
     # in_num_well = '96'
     # out_num_well = '96'
     nb.create_biomek_dilution_output(filepath, int(in_num_well), int(out_num_well))
 
 
-
 def template():
     num_source_plates = input('Inform the number of source plates: ')
-    num_pattern = input('Inform the pattern [1 to 11]: ')
+    num_pattern = input('Inform the pattern [1, 2, 3, 4, 6 or 8]: ')
     pattern = input('Pattern by row -> ' + file.colours.RED + '0 ' + file.colours.ENDC
                     + 'Pattern by column -> ' + file.colours.RED + '1' + file.colours.ENDC + ': ')
     tb.verify_biomek_constraints(int(num_source_plates), int(num_pattern), int(pattern))

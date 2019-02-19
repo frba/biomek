@@ -93,10 +93,10 @@ def create_output_file(total_source, total_destination, pattern):
     if pattern == BY_ROW:
         outfile = file.create('biomek/output/source_' + str(total_source) + '_' + str(num_pattern) + 'spot_byrow.csv', 'w')
         outcsv = file.createCSV(outfile)
-        file.set_template_header(outcsv)
+        file.set_header(outcsv)
         ''' Create the source plates'''
         for i in range(0, total_source):
-            plateS_num = i+1
+            plateS_num = i + 1
             source_name = 'PlateS' + str(plateS_num)
             source_plate = create_plate(96, source_name)
             destination_names = generate_random_names('PlateD', num_pattern*i+1, num_pattern*i+num_pattern+1)
@@ -110,7 +110,7 @@ def create_output_file(total_source, total_destination, pattern):
     elif pattern == BY_COL:
         outfile = file.create('biomek/output/source_' + str(total_source) + '_' + str(num_pattern) + 'spot_bycol.csv', 'w')
         outcsv = file.createCSV(outfile)
-        file.set_template_header(outcsv)
+        file.set_header(outcsv)
         ''' Create the source plates'''
         for i in range(0, total_source):
             plateS_num = i + 1
