@@ -27,7 +27,7 @@ def fmol(length, concentration):
         '''Choose 20fmol or 40fmol based on sample concentration'''
         concent_fmol = final_concentration_fmol(concentration)
 
-        fmol = round((concent_fmol/1000) * 660 * 1 / 10 ** 6 * length * 1000, 2)
+        fmol = round((float(concent_fmol)/1000) * 660 * 1 / 10 ** 6 * length * 1000, 2)
         return fmol, concent_fmol
 
 
