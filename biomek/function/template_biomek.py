@@ -16,6 +16,7 @@ MAX_PLATES = 12
 VOLUME = 4
 BY_ROW = 0
 BY_COL = 1
+BIOMEK = 2
 
 
 def verify_entry(type, num):
@@ -40,7 +41,7 @@ def verify_biomek_constraints(num_source_plates, num_pattern, pattern):
     The output file has the source plate and the distribution of the samples according to the num_pattern and pattern
     :param num_source_plates: int number
     :param num_pattern: int number
-    :param pattern: 0 or 1
+    :param pattern: 0, 1 or 2
     """
     ver_num_source = verify_entry(int, num_source_plates)
     ver_pattern = verify_entry(int, num_pattern)
@@ -97,9 +98,9 @@ def create_output_file(total_source, total_destination, pattern):
         ''' Create the source plates'''
         for i in range(0, total_source):
             plateS_num = i + 1
-            source_name = 'PlateS' + str(plateS_num)
+            source_name = 'Source_' + str(plateS_num)
             source_plate = create_plate(96, source_name)
-            destination_names = generate_random_names('PlateD', num_pattern*i+1, num_pattern*i+num_pattern+1)
+            destination_names = generate_random_names('Destination_', num_pattern*i+1, num_pattern*i+num_pattern+1)
             destination_plates = []
             for j in range(0, len(destination_names)):
                 destination_plates.append(create_plate(96, destination_names[j]))
@@ -114,14 +115,34 @@ def create_output_file(total_source, total_destination, pattern):
         ''' Create the source plates'''
         for i in range(0, total_source):
             plateS_num = i + 1
-            source_name = 'PlateS' + str(plateS_num)
+            source_name = 'Source_' + str(plateS_num)
             source_plate = create_plate(96, source_name)
-            destination_names = generate_random_names('PlateD', num_pattern * i + 1, num_pattern * i + num_pattern + 1)
+            destination_names = generate_random_names('Destination_', num_pattern * i + 1, num_pattern * i + num_pattern + 1)
             destination_plates = []
             for j in range(0, len(destination_names)):
                 destination_plates.append(create_plate(96, destination_names[j]))
             '''Call Function to write the CSV by rows'''
             file.write_by_col(source_plate, destination_plates, num_pattern, outcsv, VOLUME)
+        print(file.colours.BOLD + 'Output File: ' + outfile.name + file.colours.BOLD)
+
+    elif pattern == BIOMEK:
+        outfile = file.create('biomek/output/source_' + str(total_source) + '_' + str(num_pattern) + 'spot_biomek.csv', 'w')
+        outfile_worklist = file.create('biomek/output/source_' + str(total_source) + '_' + str(num_pattern) + 'worklist.csv', 'w')
+        outcsv = file.create_writer_CSV(outfile)
+        outcsv_worklist = file.create_writer_CSV(outfile_worklist)
+        file.set_biomek_header(outcsv)
+        file.set_worklist_header(outcsv_worklist)
+        ''' Create the source plates'''
+        for i in range(0, total_source):
+            plateS_num = i + 1
+            source_name = 'Source_' + str(plateS_num)
+            source_plate = create_plate(96, source_name)
+            destination_names = generate_random_names('Destination_', num_pattern * i + 1, num_pattern * i + num_pattern + 1)
+            destination_plates = []
+            for j in range(0, len(destination_names)):
+                destination_plates.append(create_plate(96, destination_names[j]))
+            '''Call Function to write the CSV by rows'''
+            file.write_scol_dcol_by_spot(source_plate, destination_plates, num_pattern, outcsv, VOLUME, outcsv_worklist)
         print(file.colours.BOLD + 'Output File: ' + outfile.name + file.colours.BOLD)
     else:
         print('Invalid option')

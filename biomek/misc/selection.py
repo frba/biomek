@@ -27,7 +27,9 @@ def template():
     num_source_plates = input('Inform the number of source plates: ')
     num_pattern = input('Inform the pattern [1, 2, 3, 4, 6 or 8]: ')
     pattern = input('Pattern by row -> ' + file.colours.RED + '0 ' + file.colours.ENDC
-                    + 'Pattern by column -> ' + file.colours.RED + '1' + file.colours.ENDC + ': ')
+                    + 'Pattern by column -> ' + file.colours.RED + '1 ' + file.colours.ENDC
+                    + 'Pattern by Biomek -> ' + file.colours.RED + '2' + file.colours.ENDC
+                    + ': ')
     tb.verify_biomek_constraints(int(num_source_plates), int(num_pattern), int(pattern))
 
 
