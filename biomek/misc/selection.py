@@ -4,22 +4,21 @@
 
 import sys
 from biomek.misc import file
-from ..function import normalization_biomek as nb
-from ..function import template_biomek as tb
+from ..function import normalization as nb
+from ..function import spotting as tb
+from ..function import combinatorial as ct
 
 
 def combinatorial_data():
-    print('Under development')
-    sys.exit()
+    # filepath = input('Inform the filepath (biomek/input/combinat_part.csv): ')
+    filepath = 'biomek/input/combinat_part.txt'
+    ct.create_combinations(filepath)
 
 
 def data_normalization():
     filepath = input('Inform the filepath (biomek/input/database.csv): ')
     in_num_well = input('Inform the number of wells in source plate: ')
     out_num_well = input('Inform the number of wells in destination plate: ')
-    # filepath = 'biomek/input/database.csv'
-    # in_num_well = '96'
-    # out_num_well = '96'
     nb.create_biomek_dilution_output(filepath, int(in_num_well), int(out_num_well))
 
 

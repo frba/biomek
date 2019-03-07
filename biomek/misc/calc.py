@@ -5,7 +5,7 @@
 """
 
 import numpy as np
-import re
+import re, math
 
 
 def final_concentration_fmol(concentration):
@@ -52,10 +52,15 @@ def total_volume(sample_volume, dilut_factor):
 
 
 def total_destination_plates(plates_in, in_well, out_well):
+    'TODO: Need verification'
     """Return the number of destination plates"""
-    num_dest = len(plates_in) * in_well/out_well
-    if num_dest < 1:
-        num_dest = 1
+    num_dest = math.ceil(len(plates_in) * in_well/out_well)
+    return num_dest
+
+
+def num_destination_plates(num_samples, out_well):
+    """Return the number of destination plates"""
+    num_dest = math.ceil(num_samples / out_well)
     return num_dest
 
 
@@ -102,3 +107,14 @@ def coordinates_to_wellname(coords):
     """Convert (0,0)->A1, (4,3)->D5, (12, 12)->M13, etc."""
     row, column = coords
     return number_to_rowname(row)+str(column+1)
+
+
+def num_times_combination(my_item, lists_combination_parts):
+    count = 0
+    for combinations in lists_combination_parts:
+        for set in combinations:
+            for item in set:
+                if my_item == item:
+                    count +=1
+    return count
+
