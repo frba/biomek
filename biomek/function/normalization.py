@@ -33,7 +33,7 @@ def verify_sample_volume(volume_needed, volume_available):
             return volume_needed
 
 
-def calc_normalization_from_plate(sample, plate_in, plate_water, i, j):
+def calc_normalization_from_plate(sample, plate_in, plate_water, i, j, bb_fmol, part_fmol):
     """
     Returns a list with info about the volume of the sample and water to normalize
     :param sample: object from plate Sample
@@ -43,7 +43,7 @@ def calc_normalization_from_plate(sample, plate_in, plate_water, i, j):
     :param j: integer
     :return: list r_norm = [part, plate_name, well_name, fmol, vol_sample, vol_water, message]
     """
-    fmol, final_concent = calc.fmol(sample.get_length(), sample.get_concentration())
+    fmol, final_concent = calc.fmol(sample.type, sample.get_length(), sample.get_concentration(), bb_fmol, part_fmol)
     dilut_factor = calc.dilution_factor(fmol, sample.get_concentration())
 
     '''Verify the total sample volume available'''
@@ -102,11 +102,11 @@ def populate_plates_sample(plates_in, filein):
     """
     file.get_header(filein)
     for line in filein:
-        samp_name, samp_len, samp_conc, volume, plate_name, plate_well = line
+        samp_name, type, samp_len, samp_conc, volume, plate_name, plate_well = line
         for i in range(0, len(plates_in)):
             if plates_in[i].name == plate_name:
                 row, col = calc.wellname_to_coordinates(plate_well)
-                plates_in[i].wells[row][col].samples.append(plate.Sample(samp_name, samp_len, samp_conc, int(volume)))
+                plates_in[i].wells[row][col].samples.append(plate.Sample(samp_name, type, samp_len, samp_conc, int(volume)))
     return plates_in
 
 
@@ -120,7 +120,7 @@ def populate_plates_water(plates_water):
         for i in range(0, plates_water[k].num_rows):
             for j in range(0, plates_water[k].num_cols):
                 plates_water[k].wells[i][j].name = 'A1'
-                plates_water[k].wells[i][j].samples.append(plate.Sample('water', None, None, plate.Well.MAX_VOL))
+                plates_water[k].wells[i][j].samples.append(plate.Sample('water', None, None, None, plate.Well.MAX_VOL))
     return plates_water
 
 
@@ -146,8 +146,8 @@ def populate_plates_destination(destination_plates, norm_result):
             # Get the plate and empty well on the dest_plate
             i = get_plate_with_empty_well(destination_plates)
             row, col = destination_plates[i].get_empty_well_coord()
-            destination_plates[i].wells[row][col].samples.append(plate.Sample(sample_name, None, None, sample_vol_verified))
-            destination_plates[i].wells[row][col].samples.append(plate.Sample('water', None, None, water_vol_needed))
+            destination_plates[i].wells[row][col].samples.append(plate.Sample(sample_name, None, None, None, sample_vol_verified))
+            destination_plates[i].wells[row][col].samples.append(plate.Sample('water', None, None, None, water_vol_needed))
             norm_result[k][7] = destination_plates[i].id
             norm_result[k][8] = destination_plates[i].name
             norm_result[k][9] = destination_plates[i].wells[row][col].name
@@ -178,7 +178,7 @@ def create_source_plates(filein, in_well):
     plates_in = []
     for line in filein:
         found = False
-        samp_name, samp_len, samp_conc, volume, plate_name, plate_well = line
+        samp_name, type, samp_len, samp_conc, volume, plate_name, plate_well = line
         if plate_name != '':
             if len(plates_in) == 0:
                 plates_in.append(create_plate(in_well, plate_name))
@@ -211,7 +211,7 @@ def create_destination_plates(plates_in, in_well, out_well):
         return plates_out
 
 
-def create_biomek_dilution_output(path, in_well, out_well):
+def create_biomek_dilution_output(path, in_well, out_well, bb_fmol, part_fmol):
     """
     Creates a CSV file to be used in Biomek with the volume of sample and water to normalize the sample
     :param path: input file with parts information
@@ -241,14 +241,14 @@ def create_biomek_dilution_output(path, in_well, out_well):
             for j in range(0, plates_in[k].num_cols):
                 """Calculate the normalization parameters"""
                 for sample in plates_in[k].wells[i][j].samples:
-                    norm_result.append(calc_normalization_from_plate(sample, plates_in[k], plates_water[k], i, j))
+                    norm_result.append(calc_normalization_from_plate(sample, plates_in[k], plates_water[k], i, j, bb_fmol, part_fmol))
 
     # TODO: Modification in Plate Source, Water and Destination for a List of Plates
 
     plates_out_filled, new_result = populate_plates_destination(plates_out, norm_result)
     # """Write the result in a CSV file"""
 
-    file.write_normal_result(writer_csv, new_result)
+    alert = file.write_normal_result(writer_csv, new_result)
     print(file.colours.BOLD + 'Output File: ' + fileout.name + file.colours.ENDC)
     filein.close()
     fileout.close()

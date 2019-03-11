@@ -89,7 +89,7 @@ def set_normal_header(fileout):
 
 
 def write_normal_result(fileout, result):
-
+    alert = []
     for i in range(0, len(result)):
         part, source_id, source_plate_name, source_well_name, water_id, water_plate_name, water_plate_well, \
         dest_plate, dest_id, dest_well, final_concent, vol_sample, vol_water, error = result[i]
@@ -98,9 +98,11 @@ def write_normal_result(fileout, result):
               water_plate_well, vol_water, dest_plate, dest_well, dest_id, final_concent
 
         if len(error) > 0:
+            alert.append(error)
             print(colours.RED + str(error) + colours.ENDC)
         else:
             fileout.writerow(row)
+    return alert
 
 
 def write_by_col(source_plate, destination_plates, num_pattern, outfile, VOLUME):
@@ -200,9 +202,10 @@ def write_scol_dcol_by_spot(source_plate, destination_plates, num_pattern, outfi
 
 def write_combinations(outfile, list_combinations):
     for list in list_combinations:
+        print(list)
         for parts in list:
             for i in range(0, len(parts)-1):
                 outfile.write(parts[i] + ",")
-            outfile.write(parts[i] + "\n")
+            outfile.write(parts[i+1] + "\n")
     outfile.close()
 

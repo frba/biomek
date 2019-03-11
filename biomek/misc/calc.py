@@ -8,24 +8,24 @@ import numpy as np
 import re, math
 
 
-def final_concentration_fmol(concentration):
-    if concentration < 100:
-        final_concent = 20
+def fmol_by_parttype(type, bb_fmol, part_fmol):
+
+    if '8' in type:
+        return bb_fmol
     else:
-        final_concent = 40
-    return final_concent
+        return part_fmol
 
 
-def fmol(length, concentration):
-    """Return 20fmol or 40fmol of sample based on its length and concentration"""
+def fmol(type, length, concentration, bb_fmol, part_fmol):
+    """Return 20fmol or 40fmol of sample based on type of part"""
     try:
         length = float(length)
         concentration = float(concentration)
     except TypeError:
         print(str(length) + 'is not a number')
     else:
-        '''Choose 20fmol or 40fmol based on sample concentration'''
-        concent_fmol = final_concentration_fmol(concentration)
+        '''Choose 20fmol or 40fmol based on sample type'''
+        concent_fmol = fmol_by_parttype(type, bb_fmol, part_fmol)
 
         fmol = round((float(concent_fmol)/1000) * 660 * 1 / 10 ** 6 * length * 1000, 2)
         return fmol, concent_fmol
@@ -117,4 +117,27 @@ def num_times_combination(my_item, lists_combination_parts):
                 if my_item == item:
                     count +=1
     return count
+
+
+def num_listsparts(lists_parts):
+    list_set_num_parts = []
+    for list in lists_parts:
+        input_num_parts = []
+        for parts in list:
+            num_parts = len(parts)
+            input_num_parts.append(num_parts)
+        list_set_num_parts.append(input_num_parts)
+    return list_set_num_parts
+
+
+def num_combinations(list_combinations):
+    num_combinations_in_list = []
+    num_parts = 0
+    for list in list_combinations:
+        for parts in list:
+            num_parts +=1
+        num_combinations_in_list.append(num_parts)
+    return num_combinations_in_list
+
+
 

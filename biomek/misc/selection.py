@@ -10,16 +10,19 @@ from ..function import combinatorial as ct
 
 
 def combinatorial_data():
-    # filepath = input('Inform the filepath (biomek/input/combinat_part.csv): ')
-    filepath = 'biomek/input/combinat_part.txt'
+    filepath = input('Inform the filepath (biomek/input/combinat_part.csv): ')
+    # filepath = 'biomek/input/parts.txt'
     ct.create_combinations(filepath)
 
 
 def data_normalization():
-    filepath = input('Inform the filepath (biomek/input/database.csv): ')
+    # filepath = input('Inform the filepath (biomek/input/database.csv): ')
+    filepath = 'biomek/input/to_be_normalized.csv'
     in_num_well = input('Inform the number of wells in source plate: ')
     out_num_well = input('Inform the number of wells in destination plate: ')
-    nb.create_biomek_dilution_output(filepath, int(in_num_well), int(out_num_well))
+    bb_fmol = 80
+    part_fmol = 40
+    nb.create_biomek_dilution_output(filepath, int(in_num_well), int(out_num_well), bb_fmol, part_fmol)
 
 
 def template():
