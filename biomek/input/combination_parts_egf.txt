@@ -1,0 +1,7 @@
+hc_amp_ccdb,p1_5'ha-haavs1,conn_b-l,conn_l-w,p23_insulatorfb,p24_3'pb,conn_y-z
+hc_amp_ccdb,p1_5'-itr-pb,conn_b-e,p5_kt-weiss,p6_nt-sv40_nls,p7_l7ae-weiss,conn_h-k,p11_sv40polya,conn_l-r,conn_r-w,conn_w-z
+hc_amp_ccdb,p1_5'-itr-pb,conn_b-e,p5_k1-k1,p6_kozak-atg,p7_l7ae-weiss,conn_h-k,p11_sv40polya,conn_l-y,p25_sv40-ori
+hc_amp_ccdb,p1_5'ha-haavs1,conn_b-e,p5_kt-weiss,p6_atg_boxc,p7_mruby2,conn_h-k,p11_sv40polya,conn_l-y,p25_sv40-ori
+hc_amp_ccdb,p1_5'ha-haavs1,conn_b-e,p5_k1-k1,p6_kozak-atg,p7_mneogreen,conn_h-k,p11_sv40polya,conn_l-w,conn_w-x,p24_3'pb,conn_y-z
+hc_amp_ccdb,p1_5'ha-haavs1,conn_b-e,p5_kt-weiss,p6_atg_boxc,p7_mruby2,p8_linker1,p9_firefly_luciferase,p10_tet-aptazyme,p11_sv40polya,conn_l-n,p14_cmvp,p15_puror,p16_bghpolya,conn_q-r,p18_ef1ap,p19_mneogreen,conn_t-v,p22_pgkpolya,conn_w-y,conn_y-z
+hc_amp_ccdb,p1_5'ha-haavs1,conn_b-e,p5_kt-weiss,p6_atg_boxc,p7_mruby2,p8_linker1,p9_firefly_luciferase,p10_tet-aptazyme,p11_sv40polya,conn_l-r,p18_ef1ap,p19_mruby2,conn_t-v,p22_pgkpolya,conn_w-y,conn_y-z

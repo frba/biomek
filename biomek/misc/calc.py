@@ -8,24 +8,23 @@ import numpy as np
 import re, math
 
 
-def fmol_by_parttype(type, bb_fmol, part_fmol):
+def fmol_by_parttype(samp_type, bb_fmol, part_fmol):
 
-    if '8' in type:
+    if '8' in samp_type or '7' in samp_type:
         return bb_fmol
     else:
         return part_fmol
 
 
-def fmol(type, length, concentration, bb_fmol, part_fmol):
+def fmol(samp_type, length, bb_fmol, part_fmol):
     """Return 20fmol or 40fmol of sample based on type of part"""
     try:
         length = float(length)
-        concentration = float(concentration)
     except TypeError:
         print(str(length) + 'is not a number')
     else:
         '''Choose 20fmol or 40fmol based on sample type'''
-        concent_fmol = fmol_by_parttype(type, bb_fmol, part_fmol)
+        concent_fmol = fmol_by_parttype(samp_type, bb_fmol, part_fmol)
 
         fmol = round((float(concent_fmol)/1000) * 660 * 1 / 10 ** 6 * length * 1000, 2)
         return fmol, concent_fmol
@@ -49,6 +48,14 @@ def sample_volume(dilut_factor, well_min_vol):
 def total_volume(sample_volume, dilut_factor):
     total_volume = sample_volume * dilut_factor
     return total_volume
+
+
+def round_at(value, rounding):
+    """Round value at the nearest rounding"""
+    if rounding is None:
+        return value
+    else:
+        return np.round(value / rounding) * rounding
 
 
 def total_destination_plates(plates_in, in_well, out_well):
@@ -109,13 +116,12 @@ def coordinates_to_wellname(coords):
     return number_to_rowname(row)+str(column+1)
 
 
-def num_times_combination(my_item, lists_combination_parts):
+def num_times_part(my_item, lists_parts):
     count = 0
-    for combinations in lists_combination_parts:
-        for set in combinations:
-            for item in set:
-                if my_item == item:
-                    count +=1
+    for list in lists_parts:
+        for part in list:
+            if my_item == part:
+                count +=1
     return count
 
 

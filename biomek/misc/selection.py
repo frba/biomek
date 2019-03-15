@@ -7,11 +7,47 @@ from biomek.misc import file
 from ..function import normalization as nb
 from ..function import spotting as tb
 from ..function import combinatorial as ct
+from ..function import moclo as mc
+
+
+def moclo():
+    # filepath = input('Inform the filepath (biomek/input/combinat_part.csv): ')
+    # database = input('Inform the filepath (biomek/input/database.csv): ')
+    # filepath = 'biomek/input/combination_parts_egf.txt'
+    filepath = 'biomek/input/combination_parts.txt'
+    # database = 'biomek/input/database_egf.csv'
+    database = 'biomek/input/database.csv'
+    # dispenser_parameters = input('dispenser_parameters: ')
+    machine = 0
+    """Minimal volume in nl obtain from the machine from source plate"""
+    min_vol = 2.5e-9
+    """Minimal volume in nl dropped by the machine"""
+    res_vol = 2.5e-9
+    """Volume in ul cant be reached by the machine"""
+    dead_vol = 3
+    dispenser_parameters = [machine, min_vol, res_vol, dead_vol]
+
+    # mix_parameters = input('mixer parameters: ')
+    part_fmol = 40
+    bb_fmol = 80
+    total_vol = 10
+    buffer = 10
+    rest_enz = 10
+    lig_enz = 10
+    mix_parameters = [part_fmol, bb_fmol, total_vol, buffer, rest_enz, lig_enz]
+    out_num_well = '96'
+    pattern = '0'
+
+    # out_num_well = input('Inform the number of wells in destination plate: ')
+    # plate_type = input('Inform the plate type: ')
+    # pattern = input('Pattern by row -> ' + file.colours.RED + '0 ' + file.colours.ENDC +
+    # 'Pattern by column -> ' + file.colours.RED + '1 ' + file.colours.ENDC + ': ')
+
+    mc.create_moclo(filepath, database, dispenser_parameters, mix_parameters, int(out_num_well), int(pattern))
 
 
 def combinatorial_data():
-    filepath = input('Inform the filepath (biomek/input/combinat_part.csv): ')
-    # filepath = 'biomek/input/parts.txt'
+    filepath = input('Inform the filepath (biomek/input/parts.csv): ')
     ct.create_combinations(filepath)
 
 
@@ -20,8 +56,8 @@ def data_normalization():
     filepath = 'biomek/input/to_be_normalized.csv'
     in_num_well = input('Inform the number of wells in source plate: ')
     out_num_well = input('Inform the number of wells in destination plate: ')
-    bb_fmol = 80
-    part_fmol = 40
+    bb_fmol = input('Inform the fmol for backbone (80 or 40):  ')
+    part_fmol = input('Inform the fmol for part (40 or 20):  ')
     nb.create_biomek_dilution_output(filepath, int(in_num_well), int(out_num_well), bb_fmol, part_fmol)
 
 
@@ -49,6 +85,8 @@ def function(choose):
     elif choose == 2:
         '''Create Combinatorial CSV File'''
         combinatorial_data()
+    elif choose == 3:
+        moclo()
     else:
         print(file.colours.RED + 'Invalid option' + file.colours.ENDC)
         sys.exit()
@@ -64,6 +102,7 @@ def autoplay():
     choose = input(file.colours.RED + '0' + file.colours.ENDC + ' -> Create a CSV file template\n'
                    + file.colours.RED + '1' + file.colours.ENDC + ' -> Create a Normalization CSV file\n'
                    + file.colours.RED + '2' + file.colours.ENDC + ' -> Create a CSV file with combinatorial\n'
+                   + file.colours.RED + '3' + file.colours.ENDC + ' -> Create a CSV file for MOCLO\n'
                    +'Choose > ')
 
     return int(choose)

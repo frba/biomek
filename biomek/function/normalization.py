@@ -43,7 +43,7 @@ def calc_normalization_from_plate(sample, plate_in, plate_water, i, j, bb_fmol, 
     :param j: integer
     :return: list r_norm = [part, plate_name, well_name, fmol, vol_sample, vol_water, message]
     """
-    fmol, final_concent = calc.fmol(sample.type, sample.get_length(), sample.get_concentration(), bb_fmol, part_fmol)
+    fmol, final_concent = calc.fmol(sample.type, sample.get_length(), bb_fmol, part_fmol)
     dilut_factor = calc.dilution_factor(fmol, sample.get_concentration())
 
     '''Verify the total sample volume available'''
