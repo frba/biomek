@@ -1,8 +1,3 @@
-"""
-# Library to create a class for different plates
-"""
-
-
 from ..misc import calc
 
 
@@ -76,6 +71,13 @@ class Plate:
                 count+=n
             else:
                 return
+
+    def get_samples_well(self, part_name):
+        for i in range(self.num_rows):
+            for j in range(self.num_cols):
+                for sample in self.wells[i][j].get_sample():
+                    if sample.name == part_name:
+                        yield self.wells[i][j]
 
 
 class Well:

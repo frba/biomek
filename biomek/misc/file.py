@@ -105,6 +105,20 @@ def write_normal_result(fileout, result):
     return alert
 
 
+def write_plate_by_col(destination_plates):
+
+    for plateD in destination_plates:
+        dest_wells = plateD.iterC(1)
+        while dest_wells:
+            try:
+                wellD = next(dest_wells)
+                # result = source_plate.id, source_plate.name, wellS.name, plateD.id, plateD.name, wellD.name, VOLUME
+                result = plateD.id, plateD.name, wellD.name, wellD.samples
+                print(result)
+            except StopIteration:
+                break
+
+
 def write_by_col(source_plate, destination_plates, num_pattern, outfile, VOLUME):
     """
     Create a .csv file to be used in biomek
