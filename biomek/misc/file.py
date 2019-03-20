@@ -1,9 +1,7 @@
 """
 # Library to deal with input and output files
 """
-
-
-import os, re, sys, csv
+import os, re, sys, csv, math
 
 # DATABASE = "../input/database.csv"
 
@@ -24,12 +22,12 @@ def create(filename, mode):
     return newfile
 
 
-def create_reader_CSV(filein):
+def create_reader_csv(filein):
     filein = csv.reader(filein)
     return filein
 
 
-def create_writer_CSV(newfile):
+def create_writer_csv(newfile):
     """Create a new file"""
     newfile = csv.writer(newfile, dialect='excel')
     return newfile
@@ -64,6 +62,11 @@ def get_header(filein):
     return header
 
 
+def set_echo_header(fileout):
+    header = 'Part', 'Source Plate Name','Source Well','Destination ID','Destination Plate Name','Destination Well','Volume'
+    fileout.writerow(header)
+
+
 def set_header(fileout):
     header = 'Source ID', 'Source Plate Name','Source Well','Destination ID','Destination Plate Name','Destination Well','Volume'
     fileout.writerow(header)
@@ -88,6 +91,25 @@ def set_normal_header(fileout):
     fileout.writerow(header)
 
 
+def set_mantis_header(fileout, out_num_well):
+    if out_num_well == 96:
+        plate_name = 'PT9-96-Assay.pd.txt'
+    elif out_num_well == 384:
+        plate_name = 'PT9-96-Assay.pd.txt'
+    else:
+        print('Choose a defined plate type')
+        sys.exit()
+
+    header = ['[ Version: 1 ]'],[plate_name],['Master_Mix'+'\t'+'\t'+'Normal'],['Well'+'\t'+'1']
+    for line in header:
+        fileout.writerow(line)
+
+
+def set_mantis_import_header(fileout):
+    header = 'well','volume','reagent'
+    fileout.writerow(header)
+
+
 def write_normal_result(fileout, result):
     alert = []
     for i in range(0, len(result)):
@@ -106,7 +128,6 @@ def write_normal_result(fileout, result):
 
 
 def write_plate_by_col(destination_plates):
-
     for plateD in destination_plates:
         dest_wells = plateD.iterC(1)
         while dest_wells:
@@ -216,10 +237,47 @@ def write_scol_dcol_by_spot(source_plate, destination_plates, num_pattern, outfi
 
 def write_combinations(outfile, list_combinations):
     for list in list_combinations:
-        print(list)
         for parts in list:
             for i in range(0, len(parts)-1):
                 outfile.write(parts[i] + ",")
             outfile.write(parts[i+1] + "\n")
     outfile.close()
 
+
+def write_dispenser_echo(dispenser_list, fileout):
+    for part in dispenser_list:
+        name, type_part, source_plate, source_well, part_vol, dest_plate, dest_well, dest_id = part
+        result = [name, source_plate, source_well, dest_id, dest_plate, dest_well, part_vol]
+        # print(name, source_plate, source_well, dest_id, dest_plate, dest_well, part_vol)
+        fileout.writerow(result)
+
+
+
+def write_dispenser_mantis(file_mantis, reagents):
+    for part in reagents:
+        name = part[0]
+        volume = round(float(part[1]), 1)
+        well = part[2]
+
+        result = [well,volume,name]
+        file_mantis.writerow(result)
+
+
+def write_dispenser_mantis_in_low_high_chip(file_mantis, reagents):
+    for part in reagents:
+        name = part[0]
+        volume = round(float(part[1]), 1)
+        well = part[2]
+
+        ''' Separate integer and decimal '''
+        vol_dec, vol_int = math.modf(volume)
+        vol_dec = round(float(vol_dec), 1)
+
+        ''' Create different reagents '''
+        name_dec = name + '_low'
+        name_int = name + '_high'
+        result1 = [well,vol_dec,name_dec]
+        result2 = [well,vol_int,name_int]
+
+        file_mantis.writerow(result2)
+        file_mantis.writerow(result1)

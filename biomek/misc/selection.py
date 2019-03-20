@@ -18,14 +18,15 @@ def moclo():
     # database = 'biomek/input/database_egf.csv'
     database = 'biomek/input/database.csv'
     # dispenser_parameters = input('dispenser_parameters: ')
-    machine = 0
+    machine_name = 'echo'
     """Minimal volume in nl obtain from the machine from source plate"""
     min_vol = 2.5e-9
     """Minimal volume in nl dropped by the machine"""
     res_vol = 2.5e-9
     """Volume in ul cant be reached by the machine"""
     dead_vol = 3
-    dispenser_parameters = [machine, min_vol, res_vol, dead_vol]
+    use_high_low_chip_mantis = True
+    dispenser_parameters = [machine_name, min_vol, res_vol, dead_vol]
 
     # mix_parameters = input('mixer parameters: ')
     part_fmol = 40
@@ -33,17 +34,18 @@ def moclo():
     total_vol = 10
     buffer = 10
     rest_enz = 10
-    lig_enz = 10
-    mix_parameters = [part_fmol, bb_fmol, total_vol, buffer, rest_enz, lig_enz]
+    lig_enz = 20
+    add_water = True # 0 is No, 1 is Yes
+    mix_parameters = [part_fmol, bb_fmol, total_vol, buffer, rest_enz, lig_enz, add_water]
     out_num_well = '96'
-    pattern = '0'
+    pattern = '1'
 
     # out_num_well = input('Inform the number of wells in destination plate: ')
     # plate_type = input('Inform the plate type: ')
     # pattern = input('Pattern by row -> ' + file.colours.RED + '0 ' + file.colours.ENDC +
     # 'Pattern by column -> ' + file.colours.RED + '1 ' + file.colours.ENDC + ': ')
 
-    mc.create_moclo(filepath, database, dispenser_parameters, mix_parameters, int(out_num_well), int(pattern))
+    mc.create_moclo(filepath, database, dispenser_parameters, mix_parameters, int(out_num_well), int(pattern), use_high_low_chip_mantis)
 
 
 def combinatorial_data():

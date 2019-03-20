@@ -47,6 +47,20 @@ class Plate:
                     return i, j
         return None
 
+    def get_empty_well_by_row(self):
+        for i in range(0, self.num_rows):
+            for j in range(0, self.num_cols):
+                if len(self.wells[i][j].samples) == 0:
+                    return i, j
+        return None
+
+    def get_empty_well_by_col(self):
+        for j in range(0, self.num_cols):
+            for i in range(0, self.num_rows):
+                if len(self.wells[i][j].samples) == 0:
+                    return i, j
+        return None
+
     def iterR(self, n):
         for i in range(self.num_rows):
             for j in range(self.num_cols):

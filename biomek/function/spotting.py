@@ -93,7 +93,7 @@ def create_output_file(total_source, total_destination, pattern):
     '''Add the header'''
     if pattern == BY_ROW:
         outfile = file.create('biomek/output/source_' + str(total_source) + '_' + str(num_pattern) + 'spot_byrow.csv', 'w')
-        outcsv = file.create_writer_CSV(outfile)
+        outcsv = file.create_writer_csv(outfile)
         file.set_header(outcsv)
         ''' Create the source plates'''
         for i in range(0, total_source):
@@ -110,7 +110,7 @@ def create_output_file(total_source, total_destination, pattern):
 
     elif pattern == BY_COL:
         outfile = file.create('biomek/output/source_' + str(total_source) + '_' + str(num_pattern) + 'spot_bycol.csv', 'w')
-        outcsv = file.create_writer_CSV(outfile)
+        outcsv = file.create_writer_csv(outfile)
         file.set_header(outcsv)
         ''' Create the source plates'''
         for i in range(0, total_source):
@@ -128,8 +128,8 @@ def create_output_file(total_source, total_destination, pattern):
     elif pattern == BIOMEK:
         outfile = file.create('biomek/output/source_' + str(total_source) + '_' + str(num_pattern) + 'spot_biomek.csv', 'w')
         outfile_worklist = file.create('biomek/output/source_' + str(total_source) + '_' + str(num_pattern) + 'worklist.csv', 'w')
-        outcsv = file.create_writer_CSV(outfile)
-        outcsv_worklist = file.create_writer_CSV(outfile_worklist)
+        outcsv = file.create_writer_csv(outfile)
+        outcsv_worklist = file.create_writer_csv(outfile_worklist)
         file.set_biomek_header(outcsv)
         file.set_worklist_header(outcsv_worklist)
         ''' Create the source plates'''

@@ -219,9 +219,9 @@ def create_biomek_dilution_output(path, in_well, out_well, bb_fmol, part_fmol):
     :param out_well: number of well of output plate
     """
     filein = file.verify(path)
-    reader_csv = file.create_reader_CSV(filein)
+    reader_csv = file.create_reader_csv(filein)
     fileout = file.create('biomek/output/dilution_' + str(os.path.basename(path)), 'w')
-    writer_csv = file.create_writer_CSV(fileout)
+    writer_csv = file.create_writer_csv(fileout)
     file.set_normal_header(writer_csv)
 
     """Create a platemap"""
