@@ -322,8 +322,10 @@ def create_moclo(filepath, database, dispenser_parameters, mix_parameters, out_n
     # reader = file.create_reader_CSV(filein)
 
     ''' Create write files'''
-    file_mantis = file.create('biomek/output/mantis_' + str(os.path.basename(filepath)), 'w')
-    file_robot = file.create("biomek/output/" + str(robot.name) + "_" + str(os.path.basename(filepath)), 'w')
+    file_mantis = file.create('biomek/output/mantis_' + str(os.path.splitext(os.path.basename(filepath))[0]) + '.csv', 'w')
+
+
+    file_robot = file.create("biomek/output/" + str(robot.name) + "_" + str(os.path.splitext(os.path.basename(filepath))[0]) + '.csv', 'w')
     mantis_csv = file.create_writer_csv(file_mantis)
     robot_csv = file.create_writer_csv(file_robot)
 

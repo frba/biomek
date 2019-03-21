@@ -247,10 +247,9 @@ def write_combinations(outfile, list_combinations):
 def write_dispenser_echo(dispenser_list, fileout):
     for part in dispenser_list:
         name, type_part, source_plate, source_well, part_vol, dest_plate, dest_well, dest_id = part
-        result = [name, source_plate, source_well, dest_id, dest_plate, dest_well, part_vol]
-        # print(name, source_plate, source_well, dest_id, dest_plate, dest_well, part_vol)
+        round_vol = round(float(part_vol),1)
+        result = [name, source_plate, source_well, dest_id, dest_plate, dest_well, round_vol]
         fileout.writerow(result)
-
 
 
 def write_dispenser_mantis(file_mantis, reagents):
@@ -258,7 +257,6 @@ def write_dispenser_mantis(file_mantis, reagents):
         name = part[0]
         volume = round(float(part[1]), 1)
         well = part[2]
-
         result = [well,volume,name]
         file_mantis.writerow(result)
 
