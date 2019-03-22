@@ -24,6 +24,7 @@ def get_localization_vol(part_name, list_source_wells):
 
 
 def populate_destination_plates(plates_out, list_destination_plate, list_source_wells, mix_parameters, pattern):
+    alert = []
     part_fmol, bb_fmol, total_vol, per_buffer, per_rest_enz, per_lig_enz, add_water = mix_parameters
     out_dispenser = []
     out_master_mix = []
@@ -50,16 +51,22 @@ def populate_destination_plates(plates_out, list_destination_plate, list_source_
             '''Calculate buffer and enzimes'''
             vol_for_mixer = calc_mixer_volumes(mix_parameters)
             buffer_vol, rest_enz_vol, lig_enz_vol, total_vol_buffer = vol_for_mixer
-            out_master_mix.append(['buffer', total_vol_buffer, plateD.wells[i][j].name])
 
             '''Total water volume in well'''
             vol_water = total_vol - (total_vol_buffer + total_parts_vol)
-            out_water.append(['water', vol_water, plateD.wells[i][j].name])
 
-            ''' Add receipts in destination plate '''
-            plateD.wells[i][j].samples.append(plate.Sample('master_mix', None, None, None, total_vol_buffer))
-            plateD.wells[i][j].samples.append(plate.Sample('water', None, None, None, vol_water))
-    return plates_out, out_dispenser, out_master_mix, out_water
+            if vol_water >= 0:
+                ''' Add receipts in list destination'''
+                out_master_mix.append(['buffer', total_vol_buffer, plateD.wells[i][j].name])
+                out_water.append(['water', vol_water, plateD.wells[i][j].name])
+
+                ''' Add receipts in destination plate '''
+                plateD.wells[i][j].samples.append(plate.Sample('master_mix', None, None, None, total_vol_buffer))
+                plateD.wells[i][j].samples.append(plate.Sample('water', None, None, None, vol_water))
+            else:
+                alert.append('In constructor: ' + str(set) + '. The water volume is negative.')
+
+    return plates_out, out_dispenser, out_master_mix, out_water, alert
 
 
 def create_plate(num_wells, name):
@@ -215,7 +222,6 @@ def reajust_mixer_water_volumes(out_master_mix, out_water, min_water_vol):
         new_name = name+'+water'
         new_vol = vol + min_water_vol
         reaj_out_master_mix.append([new_name,new_vol,well])
-
     return reaj_out_master_mix, reaj_out_water
 
 
@@ -250,7 +256,7 @@ def verify_samples_volume(vol_for_part, found_list, robot):
     for part in vol_for_part:
         sample_name, sample_type, sample_length, sample_concentration, sample_volume, count, vol_part_add, plate_in_name, wellD_name = part
         total_vol_part = count * vol_part_add
-
+        print(total_vol_part, count, vol_part_add)
         '''Volume available of parts in database'''
         found = False
         for part_f in found_list:
@@ -311,9 +317,11 @@ def create_and_populate_sources_plate(db_reader, database):
 
 
 def create_moclo(filepath, database, dispenser_parameters, mix_parameters, out_num_well, pattern, use_high_low_chip_mantis):
+    alert = ''
     name_machine, min_vol, res_vol, dead_vol = dispenser_parameters
     robot = machine.Machine(name_machine, min_vol, res_vol, dead_vol)
     part_fmol, bb_fmol, total_vol, per_buffer, per_rest_enz, per_lig_enz, add_water = mix_parameters
+    print(dispenser_parameters)
 
     ''' Create read files'''
     filein = file.verify(filepath)
@@ -323,8 +331,6 @@ def create_moclo(filepath, database, dispenser_parameters, mix_parameters, out_n
 
     ''' Create write files'''
     file_mantis = file.create('biomek/output/mantis_' + str(os.path.splitext(os.path.basename(filepath))[0]) + '.csv', 'w')
-
-
     file_robot = file.create("biomek/output/" + str(robot.name) + "_" + str(os.path.splitext(os.path.basename(filepath))[0]) + '.csv', 'w')
     mantis_csv = file.create_writer_csv(file_mantis)
     robot_csv = file.create_writer_csv(file_robot)
@@ -346,6 +352,7 @@ def create_moclo(filepath, database, dispenser_parameters, mix_parameters, out_n
     # print(found_list)
 
     if len(missing_list) > 0:
+        alert = 'Alert for the missing parts: ' + str(missing_list)
         print('Alert for the missing parts: ' + str(missing_list))
         sys.exit(0)
 
@@ -368,7 +375,7 @@ def create_moclo(filepath, database, dispenser_parameters, mix_parameters, out_n
             plates_out = create_destination_plates(list_destination_plate, out_num_well)
 
             """Populate plate"""
-            plates_out, out_dispenser, out_master_mix, out_water = populate_destination_plates(plates_out, list_destination_plate, list_source_wells, mix_parameters, pattern)
+            plates_out, out_dispenser, out_master_mix, out_water, alert = populate_destination_plates(plates_out, list_destination_plate, list_source_wells, mix_parameters, pattern)
             # file.write_plate_by_col(plates_out)
 
             """Mantis output file"""
@@ -395,4 +402,5 @@ def create_moclo(filepath, database, dispenser_parameters, mix_parameters, out_n
             print('Not available samples')
             sys.exit()
 
-    return file_mantis, file_robot
+    print(alert)
+    return alert, file_mantis, file_robot

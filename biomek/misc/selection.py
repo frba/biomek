@@ -34,7 +34,7 @@ def moclo():
     total_vol = 10
     buffer = 10
     rest_enz = 10
-    lig_enz = 20
+    lig_enz = 10
     add_water = True # 0 is No, 1 is Yes
     mix_parameters = [part_fmol, bb_fmol, total_vol, buffer, rest_enz, lig_enz, add_water]
     out_num_well = '96'
