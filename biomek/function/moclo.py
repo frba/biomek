@@ -256,7 +256,7 @@ def verify_samples_volume(vol_for_part, found_list, robot):
     for part in vol_for_part:
         sample_name, sample_type, sample_length, sample_concentration, sample_volume, count, vol_part_add, plate_in_name, wellD_name = part
         total_vol_part = count * vol_part_add
-        print(total_vol_part, count, vol_part_add)
+        # print(total_vol_part, count, vol_part_add)
         '''Volume available of parts in database'''
         found = False
         for part_f in found_list:
@@ -321,7 +321,7 @@ def create_moclo(filepath, database, dispenser_parameters, mix_parameters, out_n
     name_machine, min_vol, res_vol, dead_vol = dispenser_parameters
     robot = machine.Machine(name_machine, min_vol, res_vol, dead_vol)
     part_fmol, bb_fmol, total_vol, per_buffer, per_rest_enz, per_lig_enz, add_water = mix_parameters
-    print(dispenser_parameters)
+    # print(dispenser_parameters)
 
     ''' Create read files'''
     filein = file.verify(filepath)
@@ -402,5 +402,5 @@ def create_moclo(filepath, database, dispenser_parameters, mix_parameters, out_n
             print('Not available samples')
             sys.exit()
 
-    print(alert)
+    # print(alert, file_mantis.name, file_robot.name)
     return alert, file_mantis, file_robot

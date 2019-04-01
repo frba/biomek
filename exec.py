@@ -7,22 +7,23 @@
 
 # imported packages
 from biomek.misc import selection
+from biomek.db import db
 import sys
-
-
-# class Experiment:
-#     def __init__(self, plate_source, well_source, plate_dest, well_dest, volume):
-#         self.plate_in = plate_source
-#         self.plate_out = plate_dest
-#         self.volume = volume
 
 
 def main():
 
     if len(sys.argv) == 1:
+        # database = db.connect_db()
         choose = selection.autoplay()
         selection.function(choose)
 
+
+
+        # cursor = db.get_sample(database, 'pYTK001')
+        # cursor = db.get_sample_in_plate(database, 'pYTK001')
+        # cursor = db.get_sample_info(database, 'pYTK001')
+        # cursor = db.get_samples_from_project(database, '1')
 
     else:
         print("Insert the expected number of arguments")

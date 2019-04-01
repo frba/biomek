@@ -48,12 +48,12 @@ def moclo():
     mc.create_moclo(filepath, database, dispenser_parameters, mix_parameters, int(out_num_well), int(pattern), use_high_low_chip_mantis)
 
 
-def combinatorial_data():
+def combinatorial_data(database):
     filepath = input('Inform the filepath (biomek/input/parts.csv): ')
     ct.create_combinations(filepath)
 
 
-def data_normalization():
+def data_normalization(database):
     # filepath = input('Inform the filepath (biomek/input/database.csv): ')
     filepath = 'biomek/input/to_be_normalized.csv'
     in_num_well = input('Inform the number of wells in source plate: ')
