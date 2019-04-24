@@ -14,15 +14,17 @@ def moclo():
     # filepath = input('Inform the filepath (biomek/input/combinat_part.csv): ')
     # database = input('Inform the filepath (biomek/input/database.csv): ')
     # filepath = 'biomek/input/combination_parts_egf.txt'
-    filepath = 'biomek/input/combination_parts.txt'
+    # filepath = 'biomek/input/combination_parts.txt'
     # database = 'biomek/input/database_egf.csv'
-    database = 'biomek/input/database.csv'
+    # database = 'biomek/input/database.csv'
+    filepath = '/home/flavia/Downloads/combination_Msh-P6h-Cpr_combi.txt'
+    database = '/home/flavia/Downloads/mshcombi_db2.csv'
     # dispenser_parameters = input('dispenser_parameters: ')
     machine_name = 'echo'
     """Minimal volume in nl obtain from the machine from source plate"""
-    min_vol = 2.5e-9
+    min_vol = 2.5e-3
     """Minimal volume in nl dropped by the machine"""
-    res_vol = 2.5e-9
+    res_vol = 2.5e-3
     """Volume in ul cant be reached by the machine"""
     dead_vol = 3
     use_high_low_chip_mantis = True

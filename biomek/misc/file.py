@@ -248,7 +248,6 @@ def write_dispenser_echo(dispenser_list, fileout):
     for part in dispenser_list:
         name, type_part, source_plate, source_well, part_vol, dest_plate, dest_well, dest_id = part
         vol_nl = part_vol * 1000
-        # round_vol = round(float(vol_nl),0)
         round_vol = int(vol_nl)
         result = [name, source_plate, source_well, dest_id, dest_plate, dest_well, round_vol]
         fileout.writerow(result)

@@ -14,9 +14,9 @@ import sys
 def main():
 
     if len(sys.argv) == 1:
-        # database = db.connect_db()
-        choose = selection.autoplay()
-        selection.function(choose)
+        database = db.connect_db()
+        # choose = selection.autoplay()
+        # selection.function(choose)
 
 
 

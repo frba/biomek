@@ -32,12 +32,12 @@ def connect_db():
         connection = pd.AqSession('flavia', 'genomefoundry', 'http://flavia-optiplex-3060:8080/')
     except:
         try:
-            connection = pd.AqSession('root', 'aSecretAquarium', '172.19.0.3')
+            connection = pd.AqSession('root', 'aSecretAquarium', '172.19.0.2')
         except:
             print('Not possible to connect to the database')
             sys.exit()
 
-    sample = connection.Sample.field_type()
+    sample = connection.Sample.find('ConR1')
     print(sample)
     print("connect successful!!")
     return connection
