@@ -57,3 +57,6 @@ def csv_to_source_plates(filein, plates):
                 plates[i].wells[row][col].samples.append(
                     plate.Sample(samp_name, type, samp_len, samp_conc, int(volume)))
     return plates
+
+
+# def xls_to_source_plates(filein, plates):

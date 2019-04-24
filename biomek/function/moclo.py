@@ -9,19 +9,22 @@ BY_COL = 1
 MAX_VALUE = 999999
 
 
-def get_plate_with_empty_well(destination_plates):
-    for i in range(0, len(destination_plates)):
-        if destination_plates[i].get_empty_well_coord() is not None:
-            return i
+# def get_plate_with_empty_well(destination_plates):
+#     for i in range(0, len(destination_plates)):
+#         if destination_plates[i].get_empty_well_coord() is not None:
+#             return i
 
 
 def get_localization_vol(part_name, list_source_wells):
-    for i in range(0, len(list_source_wells)):
+    for i, item in enumerate(list_source_wells):
         sample_name, sample_type, sample_length, sample_concentration, sample_volume, times_needed, times_available, vol_part_add, plate_in_name, wellD_name = list_source_wells[i]
         if part_name == sample_name and times_available > 0:
             new_times_available = times_available - 1
-            list_source_wells[i] = sample_name, sample_type, sample_length, sample_concentration, sample_volume, times_needed, new_times_available, vol_part_add, plate_in_name, wellD_name
+            list_source_wells[i] = [sample_name, sample_type, sample_length, sample_concentration, sample_volume, times_needed, new_times_available, vol_part_add, plate_in_name, wellD_name]
+            # print(part_name, times_available, wellD_name)
             return list_source_wells, list_source_wells[i]
+        elif part_name == sample_name and times_available == 0:
+            print(part_name, times_available, wellD_name)
 
 
 def populate_destination_plates(plates_out, list_destination_plate, list_source_wells, mix_parameters, pattern):
@@ -95,6 +98,7 @@ def create_entry_list_for_destination_plate(lists_parts, list_part_low_vol):
             for low_vol_part in list_part_low_vol:
                 name_lvp = low_vol_part[0]
                 vol_lvp = low_vol_part[1]
+                vol_lvp = round(vol_lvp, 2)
                 if part == name_lvp:
                     # print('For Contructor: ' + str(set) + ' There is not enough volume for sample: ' + str(
                     #     part) + '. Required : ' + str(vol_lvp))
@@ -284,7 +288,7 @@ def verify_samples_volume_2(vol_for_part, count_unique_list, robot):
     '''Volume needed of parts for the experiment'''
     list_source_wells = []
     list_part_low_vol = []
-
+    print(count_unique_list)
     for pair in count_unique_list:
         found = False
         tot_times = 0
@@ -292,7 +296,7 @@ def verify_samples_volume_2(vol_for_part, count_unique_list, robot):
         part_name = pair[0]
         times_needed = pair[1]  # Number of times it appears in experiment
         for part in vol_for_part:
-            sample_name, sample_type, sample_length, sample_concentration, sample_volume, times_needed, vol_part_add, plate_in_name, wellD_name = part
+            sample_name, sample_type, sample_length, sample_concentration, sample_volume, sample_times_needed, vol_part_add, plate_in_name, wellD_name = part
             if part_name == sample_name:
                 #Calculate how many 'vol_part_add' have in the total volume in one well
                 available_vol = float(sample_volume) - robot.dead_vol
@@ -301,12 +305,12 @@ def verify_samples_volume_2(vol_for_part, count_unique_list, robot):
                 #total times in all database
                 tot_times += times_available
                 part_info.append(part)
-
-                if times_needed <= times_available:
+                # print(part_name, times_needed, times_available, wellD_name)
+                #
+                if int(sample_times_needed) <= times_available:
                     list_source_wells.append([sample_name, sample_type, sample_length, sample_concentration, sample_volume, times_needed, times_available, vol_part_add, plate_in_name, wellD_name])
                     break
-
-        if tot_times >= times_needed:
+        if int(tot_times) >= int(times_needed):
             for part in part_info:
                 sample_name, sample_type, sample_length, sample_concentration, sample_volume, times_needed, vol_part_add, plate_in_name, wellD_name = part
                 # Calculate how many 'vol_part_add' have in the total volume in one well
@@ -320,6 +324,7 @@ def verify_samples_volume_2(vol_for_part, count_unique_list, robot):
                 total_vol_part = times_needed*vol_part_add
                 print('Not enough volume for sample: ' + str(part_name) + ' available: ' + str(sample_volume) + " need: " + str(total_vol_part))
                 list_part_low_vol.append([sample_name, total_vol_part])
+
     return list_source_wells, list_part_low_vol
 
 
@@ -419,7 +424,7 @@ def create_moclo(filepath, database, dispenser_parameters, mix_parameters, out_n
 
         """Create entry list for destination plates"""
         list_destination_plate = create_entry_list_for_destination_plate(lists_parts, list_part_low_vol)
-        # print(list_destination_plate)
+
 
         if len(list_destination_plate) > 0:
             """Create a destination plates"""
@@ -427,7 +432,7 @@ def create_moclo(filepath, database, dispenser_parameters, mix_parameters, out_n
 
             """Populate plate"""
             plates_out, out_dispenser, out_master_mix, out_water, alert = populate_destination_plates(plates_out, list_destination_plate, list_source_wells, mix_parameters, pattern)
-            # file.write_plate_by_col(plates_out)
+            file.write_plate_by_col(plates_out)
 
             """Mantis output file"""
             file.set_mantis_import_header(mantis_csv)

@@ -17,8 +17,8 @@ def moclo():
     # filepath = 'biomek/input/combination_parts.txt'
     # database = 'biomek/input/database_egf.csv'
     # database = 'biomek/input/database.csv'
-    filepath = '/home/flavia/Downloads/combination_Msh-P6h-Cpr_combi.txt'
-    database = '/home/flavia/Downloads/mshcombi_db2.csv'
+    filepath = '/home/flavia/Desktop/Mensagem_Sem_Título/combination_input_combinatorial script.txt'
+    database = '/home/flavia/Desktop/Mensagem_Sem_Título/Input database for Block3 TUs_new.csv'
     # dispenser_parameters = input('dispenser_parameters: ')
     machine_name = 'echo'
     """Minimal volume in nl obtain from the machine from source plate"""
