@@ -31,8 +31,8 @@ def moclo():
     dispenser_parameters = [machine_name, min_vol, res_vol, dead_vol]
 
     # mix_parameters = input('mixer parameters: ')
-    part_fmol = 40
-    bb_fmol = 80
+    part_fmol = 20
+    bb_fmol = 10
     total_vol = 10
     buffer = 10
     rest_enz = 10

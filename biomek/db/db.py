@@ -27,12 +27,13 @@ import pydent as pd
 #     return connection
 
 
+
 def connect_db():
     try:
         connection = pd.AqSession('flavia', 'genomefoundry', 'http://flavia-optiplex-3060:8080/')
     except:
         try:
-            connection = pd.AqSession('root', 'aSecretAquarium', '172.19.0.2')
+            connection = pd.AqSession('root', 'aSecretAquarium', '172.19.0.3')
         except:
             print('Not possible to connect to the database')
             sys.exit()
@@ -143,6 +144,8 @@ def update(connection):
     return cursor
 
 
-
-
-
+connect_db()
+# cursor = db.get_sample(database, 'pYTK001')
+# cursor = db.get_sample_in_plate(database, 'pYTK001')
+# cursor = db.get_sample_info(database, 'pYTK001')
+# cursor = db.get_samples_from_project(database, '1')

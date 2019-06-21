@@ -23,8 +23,21 @@ def get_localization_vol(part_name, list_source_wells):
             list_source_wells[i] = [sample_name, sample_type, sample_length, sample_concentration, sample_volume, times_needed, new_times_available, vol_part_add, plate_in_name, wellD_name]
             # print(part_name, times_available, wellD_name)
             return list_source_wells, list_source_wells[i]
-        elif part_name == sample_name and times_available == 0:
-            print(part_name, times_available, wellD_name)
+        # elif part_name == sample_name and times_available == 0:
+        #     print(part_name, times_available, wellD_name)
+
+
+def get_plate_with_empty_well(destination_plates, pattern):
+    if pattern == BY_ROW:
+        for p in range(0, len(destination_plates)):
+            if destination_plates[p].get_empty_well_by_row() is not None:
+                i, j = destination_plates[p].get_empty_well_by_row()
+                return p, i, j
+    else:
+        for p in range(0, len(destination_plates)):
+            if destination_plates[p].get_empty_well_by_row() is not None:
+                i, j = destination_plates[p].get_empty_well_by_col()
+                return p, i, j
 
 
 def populate_destination_plates(plates_out, list_destination_plate, list_source_wells, mix_parameters, pattern):
@@ -33,42 +46,38 @@ def populate_destination_plates(plates_out, list_destination_plate, list_source_
     out_dispenser = []
     out_master_mix = []
     out_water = []
-    for plateD in plates_out:
-        for set in list_destination_plate:
-            if pattern == BY_ROW:
-                i, j = plateD.get_empty_well_by_row()
-            else:
-                i, j = plateD.get_empty_well_by_col()
-            total_parts_vol = 0
-            for part in set:
-                list_source_wells, part = get_localization_vol(part, list_source_wells)
-                sample_name, sample_type, sample_length, sample_concentration, sample_volume, times_needed, new_times_available, vol_part_add, source_plate, source_well = part
-                final_conc = calc.fmol_by_parttype(sample_type, bb_fmol, part_fmol)
+    for set in list_destination_plate:
+        p, i, j = get_plate_with_empty_well(plates_out, pattern)
+        total_parts_vol = 0
+        for part in set:
+            list_source_wells, part = get_localization_vol(part, list_source_wells)
+            sample_name, sample_type, sample_length, sample_concentration, sample_volume, times_needed, new_times_available, vol_part_add, source_plate, source_well = part
+            final_conc = calc.fmol_by_parttype(sample_type, bb_fmol, part_fmol)
 
-                """ Adding parts in destination plate """
-                plateD.wells[i][j].samples.append(plate.Sample(sample_name, sample_type, sample_length, final_conc, vol_part_add))
-                out_dispenser.append([sample_name, sample_type, source_plate, source_well, vol_part_add, plateD.name, plateD.wells[i][j].name, plateD.id])
+            """ Adding parts in destination plate """
+            plates_out[p].wells[i][j].samples.append(plate.Sample(sample_name, sample_type, sample_length, final_conc, vol_part_add))
+            out_dispenser.append([sample_name, sample_type, source_plate, source_well, vol_part_add, plates_out[p].name, plates_out[p].wells[i][j].name, plates_out[p].id])
 
-                """ Sum of total volume of parts """
-                total_parts_vol += vol_part_add
+            """ Sum of total volume of parts """
+            total_parts_vol += vol_part_add
 
-            '''Calculate buffer and enzimes'''
-            vol_for_mixer = calc_mixer_volumes(mix_parameters)
-            buffer_vol, rest_enz_vol, lig_enz_vol, total_vol_buffer = vol_for_mixer
+        '''Calculate buffer and enzimes'''
+        vol_for_mixer = calc_mixer_volumes(mix_parameters)
+        buffer_vol, rest_enz_vol, lig_enz_vol, total_vol_buffer = vol_for_mixer
 
-            '''Total water volume in well'''
-            vol_water = total_vol - (total_vol_buffer + total_parts_vol)
+        '''Total water volume in well'''
+        vol_water = total_vol - (total_vol_buffer + total_parts_vol)
 
-            if vol_water >= 0:
-                ''' Add receipts in list destination'''
-                out_master_mix.append(['buffer', total_vol_buffer, plateD.wells[i][j].name])
-                out_water.append(['water', vol_water, plateD.wells[i][j].name])
+        if vol_water >= 0:
+            ''' Add receipts in list destination'''
+            out_master_mix.append(['buffer', total_vol_buffer, plates_out[p].wells[i][j].name])
+            out_water.append(['water', vol_water, plates_out[p].wells[i][j].name])
 
-                ''' Add receipts in destination plate '''
-                plateD.wells[i][j].samples.append(plate.Sample('master_mix', None, None, None, total_vol_buffer))
-                plateD.wells[i][j].samples.append(plate.Sample('water', None, None, None, vol_water))
-            else:
-                alert.append('In constructor: ' + str(set) + '. The water volume is negative.')
+            ''' Add receipts in destination plate '''
+            plates_out[p].wells[i][j].samples.append(plate.Sample('master_mix', None, None, None, total_vol_buffer))
+            plates_out[p].wells[i][j].samples.append(plate.Sample('water', None, None, None, vol_water))
+        else:
+            alert.append('In constructor: ' + str(set) + '. The water volume is negative.')
 
     return plates_out, out_dispenser, out_master_mix, out_water, alert
 
@@ -288,7 +297,6 @@ def verify_samples_volume_2(vol_for_part, count_unique_list, robot):
     '''Volume needed of parts for the experiment'''
     list_source_wells = []
     list_part_low_vol = []
-    print(count_unique_list)
     for pair in count_unique_list:
         found = False
         tot_times = 0
@@ -305,8 +313,8 @@ def verify_samples_volume_2(vol_for_part, count_unique_list, robot):
                 #total times in all database
                 tot_times += times_available
                 part_info.append(part)
-                # print(part_name, times_needed, times_available, wellD_name)
-                #
+                # print(part_name, times_needed, sample_times_needed, times_available, wellD_name)
+
                 if int(sample_times_needed) <= times_available:
                     list_source_wells.append([sample_name, sample_type, sample_length, sample_concentration, sample_volume, times_needed, times_available, vol_part_add, plate_in_name, wellD_name])
                     break
@@ -429,6 +437,7 @@ def create_moclo(filepath, database, dispenser_parameters, mix_parameters, out_n
         if len(list_destination_plate) > 0:
             """Create a destination plates"""
             plates_out = create_destination_plates(list_destination_plate, out_num_well)
+
 
             """Populate plate"""
             plates_out, out_dispenser, out_master_mix, out_water, alert = populate_destination_plates(plates_out, list_destination_plate, list_source_wells, mix_parameters, pattern)

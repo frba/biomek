@@ -135,7 +135,6 @@ def write_plate_by_col(destination_plates):
                 wellD = next(dest_wells)
                 # result = source_plate.id, source_plate.name, wellS.name, plateD.id, plateD.name, wellD.name, VOLUME
                 result = plateD.id, plateD.name, wellD.name, wellD.samples
-                print(result)
             except StopIteration:
                 break
 
