@@ -46,9 +46,10 @@ class Primer:
             if ind == -1:
                 return None
             else:
-                # ind = len(sequence) - ind - len(self.sequence)
+                ind = len(sequence) - ind - len(self.sequence)
                 strand = -1
         start, end = ind, ind + len(self.sequence)
+
         self.metadata = start, end, strand
         return start, end, strand
 
@@ -73,8 +74,8 @@ def reverse_complement(sequence):
 
 def verify_primer_annealing(gb_file, selected_primers):
     for primer in selected_primers:
+
         if primer.find_location(gb_file.seq) is None:
-            # print(str(primer.name) + ' cant be annealing in ' + str(gb_file.name))
             return False
     return True
 
@@ -82,26 +83,27 @@ def verify_primer_annealing(gb_file, selected_primers):
 def get_product_length(gb_file, selected_primers):
     start_fwd = 0
     end_rvs = 0
-
+    length = 0
     for primer in selected_primers:
         start, end, strand = primer.find_location(gb_file.seq)
-        # print(primer.name, primer.metadata, end=', ')
+        # print(primer.name, start, end, strand)
         if primer.name.__contains__('_Fp'):
             start_fwd = start
+            # print(start_fwd)
         else:
-            end_rvs = end
+            end_rvs = len(gb_file.seq) - end + len(primer.sequence)
+            # print(end_rvs)
 
-    length = start_fwd - end_rvs
-    # return length
-    if length > len(primer.sequence):
-        return length
+    length = end_rvs - start_fwd
 
-    else:
-        return None
-    #     print('assembly:' + str(gb_file.name))
-    #     for primer in selected_primers:
-    #         print(primer.name, end=', ')
-    #     print('\nLength:' + str(length) + '\n')
+    if length < 0:
+        length = length + len(gb_file.seq)
+
+    return length
+    # if length > len(primer.sequence):
+    #     return length
+    # else:
+    #     return None
 
 
 def get_gbfiles(constructs_path):
@@ -135,6 +137,7 @@ def get_fwd_primers(fasta_file):
     return [
         Primer(name=rec.name, sequence=str(rec.seq))
         for rec in records if rec.name.__contains__('_Fp')
+        # for rec in records if rec.name.__contains__('_Fp') and not rec.name.__contains__('ConE')
     ]
 
 
@@ -143,6 +146,7 @@ def get_rvs_primers(fasta_file):
     return [
         Primer(name=rec.name, sequence=str(rec.seq))
         for rec in records if rec.name.__contains__('_Rp')
+        # for rec in records if rec.name.__contains__('_Rp') and not rec.name.__contains__('ConS')
     ]
 
 
@@ -155,39 +159,27 @@ def draw_gbfile(gb_file):
 
 def detect_tu(selected_primers):
 
-    if selected_primers[0].name.__contains__('ConS') and selected_primers[1].name.__contains__('Con1') \
-            or selected_primers[1].name.__contains__('ConS') and selected_primers[0].name.__contains__('Con1'):
+    if selected_primers[0].name.__contains__('_Fp'):
+        fwd_primer = selected_primers[0].name
+        rvs_primer = selected_primers[1].name
+    else:
+        fwd_primer = selected_primers[1].name
+        rvs_primer = selected_primers[0].name
+
+    if fwd_primer.__contains__('ConS') and rvs_primer.__contains__('Con1'):
         return 'TU1'
-    elif selected_primers[0].name.__contains__('ConS') and selected_primers[1].name.__contains__('ConE') \
-            or selected_primers[1].name.__contains__('ConS') and selected_primers[0].name.__contains__('ConE'):
-        return 'TU1'
-    elif selected_primers[0].name.__contains__('Con1') and selected_primers[1].name.__contains__('Con2') \
-         or selected_primers[1].name.__contains__('Con1') and selected_primers[0].name.__contains__('Con2'):
+    elif fwd_primer.__contains__('ConS') and rvs_primer.__contains__('Con2'):
+        return 'TU1-TU2'
+    elif fwd_primer.__contains__('ConS') and rvs_primer.__contains__('ConE'):
+        return 'TU1-TU2-TU3'
+    elif fwd_primer.__contains__('Con1') and rvs_primer.__contains__('Con2'):
         return 'TU2'
-    elif selected_primers[0].name.__contains__('Con1') and selected_primers[1].name.__contains__('ConE') \
-         or selected_primers[1].name.__contains__('Con1') and selected_primers[0].name.__contains__('ConE'):
-        return 'TU2'
-    elif selected_primers[0].name.__contains__('Con2') and selected_primers[1].name.__contains__('Con3') \
-         or selected_primers[1].name.__contains__('Con2') and selected_primers[0].name.__contains__('Con3'):
+    elif fwd_primer.__contains__('Con1') and rvs_primer.__contains__('ConE'):
+        return 'TU2-TU3'
+    elif fwd_primer.__contains__('Con2') and rvs_primer.__contains__('ConE'):
         return 'TU3'
-    elif selected_primers[0].name.__contains__('Con2') and selected_primers[1].name.__contains__('ConS') \
-         or selected_primers[1].name.__contains__('Con2') and selected_primers[0].name.__contains__('ConS'):
-        return 'TU3'
-    elif selected_primers[0].name.__contains__('Con3') and selected_primers[1].name.__contains__('ConS') \
-         or selected_primers[1].name.__contains__('Con3') and selected_primers[0].name.__contains__('ConS'):
-        return 'TU4'
-    elif selected_primers[0].name.__contains__('Con3') and selected_primers[1].name.__contains__('Con4') \
-         or selected_primers[1].name.__contains__('Con3') and selected_primers[0].name.__contains__('Con4'):
-        return 'TU4'
-    elif selected_primers[0].name.__contains__('Con4') and selected_primers[1].name.__contains__('ConS') \
-         or selected_primers[1].name.__contains__('Con4') and selected_primers[0].name.__contains__('ConS'):
-        return 'TU5'
-    elif selected_primers[0].name.__contains__('Con4') and selected_primers[1].name.__contains__('Con5') \
-         or selected_primers[1].name.__contains__('Con4') and selected_primers[0].name.__contains__('Con5'):
-        return 'TU5'
-    elif selected_primers[0].name.__contains__('Con5') and selected_primers[1].name.__contains__('ConS') \
-         or selected_primers[1].name.__contains__('Con5') and selected_primers[0].name.__contains__('ConS'):
-        return 'TU6'
+    else:
+        return None
 
 
 def print_output(results):
@@ -195,13 +187,19 @@ def print_output(results):
     for result in results:
         gb_file, selected_primers, length = result
         tu_type = detect_tu(selected_primers)
-        if selected_primers[0].name.__contains__('_Fp'):
-            print(str(gb_file.name) + '\t'
-                  + str(selected_primers[0].name) + '\t'
-                  + str(selected_primers[1].name) + '\t'
-                  + str(tu_type) + '\t'
-                  + str(length))
-
+        if tu_type is not None:
+            if selected_primers[0].name.__contains__('_Fp'):
+                print(str(gb_file.name) + '\t'
+                      + str(selected_primers[0].name) + '\t'
+                      + str(selected_primers[1].name) + '\t'
+                      + str(tu_type) + '\t'
+                      + str(length))
+            else:
+                print(str(gb_file.name) + '\t'
+                      + str(selected_primers[1].name) + '\t'
+                      + str(selected_primers[0].name) + '\t'
+                      + str(tu_type) + '\t'
+                      + str(length))
 
 
 #get_primers
@@ -209,21 +207,25 @@ available_primers_path = '../input/annealing/available_primers.fa'
 primers = get_primers(available_primers_path)
 
 
-''' get length of a selected pair of primers in gb files'''
-# selected_primers_names = ['ConS_scar_Fp','Con1_scar_Rp']
+# ''' get length of a selected pair of primers in gb files'''
+# selected_primers_names = ['ConS_scar_Fp','ConE_scar_Rp']
 # gb_files = get_gbfiles('../input/annealing/constructors/')
+# result = []
 # for gb_file in gb_files:
 #     selected_primers = get_selected_primers(available_primers_path, selected_primers_names)
 #     if verify_primer_annealing(gb_file, selected_primers):
 #         length = get_product_length(gb_file, selected_primers)
 #         if length is not None:
-#             print(gb_file.name, selected_primers[0].name, selected_primers[1].name, length)
+#             result.append([gb_file, selected_primers, length])
+#
+# print_output(result)
             # draw_gbfile(gb_file)
 
 
 '''get all pairs of primers in available file and return the length using .gb files'''
 fwd_primers = get_fwd_primers(available_primers_path)
 rvs_primers = get_rvs_primers(available_primers_path)
+
 gb_files = get_gbfiles('../input/annealing/constructors/')
 result = []
 for gb_file in gb_files:
@@ -231,11 +233,15 @@ for gb_file in gb_files:
         for rvs in rvs_primers:
             selected_primers_names = [fwd.name, rvs.name]
             selected_primers = get_selected_primers(available_primers_path, selected_primers_names)
+            # if selected_primers[0].name.__contains__('_Fp'):
+            #     print(selected_primers[0].name,selected_primers[1].name)
+            # else:
+            #     print(selected_primers[1].name, selected_primers[0].name)
             if verify_primer_annealing(gb_file, selected_primers):
                 length = get_product_length(gb_file, selected_primers)
                 if length is not None:
                     result.append([gb_file, selected_primers, length])
-                    # print_output(gb_file, selected_primers, length)
+                    # print(gb_file.name, selected_primers[0].name, selected_primers[1].name, length)
 
 print_output(result)
                     # print(gb_file.name, selected_primers[0].name, selected_primers[1].name, length)
