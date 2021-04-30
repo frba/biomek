@@ -1,12 +1,10 @@
 import os
-
 from Bio import SeqIO
 from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
-from Bio.Alphabet import IUPAC
 from Bio.SeqFeature import SeqFeature, FeatureLocation
 
-from misc import file
+from biomek.misc import file
 from dna_features_viewer import BiopythonTranslator
 
 
@@ -60,7 +58,7 @@ def generate_from_csv(path):
 def generate_from_sequence(sequence, name, description):
     # Create a sequence
     sequence_string = sequence
-    sequence_object = Seq(sequence_string, IUPAC.unambiguous_dna)
+    sequence_object = Seq(sequence_string)
 
     # Create a record
     record = SeqRecord(sequence_object,
